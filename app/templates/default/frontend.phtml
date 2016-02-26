@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CORS proxy | HTMLDriven.com</title>
+		
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<meta name="description" content="CORS proxy is a free service for developers who need to bypass same-origin policy related to performing standard AJAX requests to 3rd party services.">
+		<meta name="keywords" content="CORS proxy, cross-domain request, open-source, HTML-driven">
+		<meta name="author" content="Jiri Rebenda, HTMLDriven (c) 2016">
+		<meta name="robots" content="all,follow">
+		
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link type="text/css" rel="stylesheet" href="<?php echo $basePath; ?>/assets/default/css/main.css">
+	</head>
+	<body>
+		<nav id="main-navbar" class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">CORS proxy</a>
+				</div>
+
+				<div id="main-navbar-collapse" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-left">
+						<li><div class="fb-like" data-href="http://cors-proxy.htmldriven.com" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div></li>
+						<li><a href="https://twitter.com/HTMLDriven" class="twitter-follow-button" data-show-count="false">Follow @HTMLDriven</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#about">About</a></li>
+						<li><a href="#how-to-use">How to use</a></li>
+						<li><a href="#setup">Setup</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="container">
+			<div class="page-header">
+				<h1>CORS proxy <small>by <a href="http://www.htmldriven.com">HTMLDriven</a></small></h1>
+			</div>
+			
+			<form class="form-inline request-form" data-request-url="<?php echo $domainUrl; ?><?php echo $basePath; ?>/?<?php echo $config->getUrlParameterName(); ?>={url}">
+				<div class="input-group input-group-lg" style="width:100%;">
+					<div class="input-group-btn" style="width:1%;">
+						<button type="button" class="btn btn-default copy-request-url"><span class="glyphicon glyphicon-copy"></span></button>
+					</div>
+					<span class="input-group-addon" style="width:1%;"><?php echo $domainUrl; ?><?php echo $basePath; ?>/?<?php echo $config->getUrlParameterName(); ?>=</span>
+					<input type="text" name="url" class="form-control" placeholder="Enter the URL">
+					<div class="input-group-btn" style="width:1%;">
+						<input type="submit" class="btn btn-primary" value="Get response now">
+					</div>
+				</div>
+			</form>
+			<hr>
+			<section id="about">
+				<div>
+					<p>CORS proxy is a free service for developers who need to bypass <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">same-origin policy</a> related to performing standard <a href="https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started">AJAX requests</a> to 3rd party services.</p>
+					<p>You can simply use this website as quickest way to finally start doing some cross-domain requests and even you can run this service on your own webserver. If you prefer running the service on your own, follow the instructions in <a href="#how-to-setup">Setup</a> section.</p>
+					<p>You can customize the service parameters to fit your own needs (including this front-end page template).</p>
+				</div>
+			</section>
+			<hr>
+			<section id="how-to-use">
+				<h2>How to use</h2>
+				<p>The CORS proxy service expects by default you provide the URL of 3rd party service/page in <code>url</code> HTTP GET parameter. A cross-domain request URL via the CORS proxy service can be handled then look something like this:</p>
+				<pre><?php echo $domainUrl; ?><?php echo $basePath; ?>/?<?php echo $config->getUrlParameterName(); ?>=http://www.htmldriven.com/sample.json</pre>
+
+				<h3>Try the CORS proxy now</h3>
+				<p>You can test the CORS proxy service response using the form above.</p>
+			</section>
+			<hr>
+			<section id="setup">
+				<h2>Setup</h2>
+				<p>Read the following section if you want to run the CORS proxy on your own webserver.</p>
+				<h3>Requirements</h3>
+				<p>Please, check the <a href="https://www.github.com/htmldriven/cors-proxy/blob/master/composer.json">composer.json</a> file or <a href="http://packagist.org">packagist.org</a> to see the current list of requirements in terms of packages which are required by <a href="https://getcomposer.org">composer</a>. Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements</p>
+				<h3>Installation</h3>
+				<p>TODO</p>
+				<h3>Configuration</h3>
+				<p>TODO</p>
+			</section>
+		</div>
+		
+		<footer class="footer">
+			<div class="container text-center">
+				<small class="copyright">Developed with <i class="fa fa-heart"></i> by <a href="http://www.htmldriven.com">Jiri Rebenda | HTMLDriven</a> &copy; 2016 for developers</small>
+			</div>
+		</footer>
+		
+		<div id="request-response-modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Response</h4>
+					</div>
+					<div class="modal-body">
+						<strong>Copy the following request URL to use it in your app:</strong>
+						<div class="request-url"></div>
+						<hr>
+						<div class="response-body"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+		<script type="text/javascript" src="<?php echo $basePath; ?>/assets/default/js/main.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		
+		<!-- cookie law -->
+		<script src="http://d2z9iq901qkqk8.cloudfront.net/en.js" async></script>
+		
+		<script type="text/javascript">
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-20208778-3', 'auto');
+			ga('send', 'pageview');
+		</script>
+		
+		<script type="text/javascript">
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId: '1528426150790650',
+					xfbml: true,
+					version: 'v2.5'
+				});
+			};
+
+			(function(d, s, id){
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			 }(document, 'script', 'facebook-jssdk'));
+		</script>
+		
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	</body>
+</html>

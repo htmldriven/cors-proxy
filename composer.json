@@ -1,0 +1,27 @@
+{
+    "name": "htmldriven/cors-proxy",
+    "description": "A simple proxy service for performing cross-domain AJAX requests.",
+	"keywords": ["cors", "proxy", "cross-domain", "htmldriven"],
+	"license": "MIT",
+	"homepage": "http://www.htmldriven.com",
+    "authors": [
+        {
+            "name": "RebendaJiri",
+			"homepage": "http://www.htmldriven.com",
+            "email": "jiri.rebenda@htmldriven.com"
+        }
+    ],
+	"type": "project",
+    "require": {
+		"php": ">=5.6.0",
+		"guzzlehttp/guzzle": "~3.8"
+	},
+	"require-dev": {
+		"nette/tester": "^1.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"HtmlDriven\\CorsProxy\\": "src/"
+		}
+	}
+}
