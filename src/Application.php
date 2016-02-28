@@ -28,6 +28,12 @@ class Application
 		'sitemapFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
 	];
 	
+	/** @var string[] */
+	private $allowedActions = [
+		'frontend',
+		'sitemap',
+	];
+	
 	/**
 	 * Handles the request.
 	 * 
@@ -39,7 +45,7 @@ class Application
 	{
 		$config = $this->createConfig();
 		
-		// handle CORS proxy request
+		// handle CORS proxy request if URL is set
 		if (isset($_GET[$config->getUrlParameterName()])) {
 			$url = (string) $_GET[$config->getUrlParameterName()];
 			
@@ -47,10 +53,10 @@ class Application
 			
 			$requestHandler = new RequestHandler($client);
 			$requestHandler->handleRequest($url);
+		} else {
+			// show frontend
+			$this->showFrontEnd($config);
 		}
-		
-		// show frontend
-		$this->showFrontEnd($config);
 	}
 	
 	/**
@@ -107,7 +113,7 @@ class Application
 		$domainUrl = $protocol . '://' . $domain;		
 		$basePath = '';
 		
-		$lastUpdate = new \DateTime('2016-02-26'); // TODO: how to detect last update?
+		$lastUpdate = $this->getLastUpdate($config);
 		
 		$action = NULL;
 		
@@ -127,12 +133,7 @@ class Application
 			exit;
 		}
 		
-		$allowedActions = [
-			'frontend',
-			'sitemap',
-		];
-		
-		if (!in_array($action, $allowedActions, TRUE)) {
+		if (!in_array($action, $this->allowedActions, TRUE)) {
 			header('HTTP/1.1 404 Not Found');
 			echo '<!DOCTYPE html><html><head></head><body><h1>Error 404</h1><p>Page you requested was not found.</p></body></html>';
 			exit;
@@ -156,5 +157,14 @@ class Application
 	private function isSecured()
 	{
 		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+	}
+	
+	/**
+	 * @param Config
+	 * @return \DateTime
+	 */
+	private function getLastUpdate(Config $config)
+	{
+		return new \DateTime(date('Y-m-d H:i:s', filemtime($config->getTemplateFile())));
 	}
 }

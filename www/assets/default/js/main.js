@@ -17,7 +17,6 @@
 			e.preventDefault();
 			
 			var $submitButton = $(this).find('[type="submit"]');
-			$submitButton.addClass('disabled');
 			
 			var $url = $(this).find('[name="url"]');
 			
@@ -29,6 +28,8 @@
 				$url.focus();
 				return false;
 			}
+			
+			$submitButton.addClass('disabled');
 			
 			requestUrl = requestUrl.replace('{url}', url);
 			
