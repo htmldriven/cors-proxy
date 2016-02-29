@@ -22,6 +22,14 @@
 	"autoload": {
 		"psr-4": {
 			"HtmlDriven\\CorsProxy\\": "src/"
+		},
+		"classmap": [
+			"src/exceptions.php"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"HtmlDrivenTests\\CorsProxy\\": "tests/CorsProxy"
 		}
 	}
 }

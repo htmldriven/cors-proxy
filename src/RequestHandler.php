@@ -37,7 +37,7 @@ class RequestHandler
 		];
 		
 		try {
-			$result = $request->send();
+			$result = $request->send(TRUE);
 		} catch (CurlException $e) {
 			$json['success'] = FALSE;
 			$json['error'] = sprintf("Unable to handle request: CURL failed with message '%s'.", $e->getError());
@@ -57,6 +57,6 @@ class RequestHandler
 		}
 
 		header('Content-Type: application/json');
-		exit(json_encode($json));
+		echo json_encode($json);
 	}
 }

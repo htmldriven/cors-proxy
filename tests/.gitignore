@@ -1,0 +1,4 @@
+/*/output
+coverage.dat
+*.actual
+*.expected

@@ -28,11 +28,22 @@ class Application
 		'sitemapFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
 	];
 	
+	/** @var Config */
+	private $config;
+	
 	/** @var string[] */
 	private $allowedActions = [
 		'frontend',
 		'sitemap',
 	];
+	
+	/**
+	 * @param Config|NULL If NULL, default config is created
+	 */
+	public function __construct(Config $config = NULL)
+	{
+		$this->config = ($config === NULL ? $this->createConfig() : $config);
+	}
 	
 	/**
 	 * Handles the request.
@@ -43,7 +54,7 @@ class Application
 	 */
 	public function run()
 	{
-		$config = $this->createConfig();
+		$config = $this->config;
 		
 		// handle CORS proxy request if URL is set
 		if (isset($_GET[$config->getUrlParameterName()])) {
@@ -122,7 +133,7 @@ class Application
 			if ($requestUri === '/index.php') {
 				header('HTTP/1.1 301 Moved Permanently');
 				header('Location: ' . $domainUrl . $basePath);
-				exit;
+				return;
 			} elseif ($requestUri === '') {
 				$action = 'frontend';
 			} elseif ($requestUri === $config->getSitemapPath()) {
@@ -130,13 +141,13 @@ class Application
 			}
 		} else {
 			header('HTTP/1.1 500 Internal Server Error');
-			exit;
+			return;
 		}
 		
 		if (!in_array($action, $this->allowedActions, TRUE)) {
 			header('HTTP/1.1 404 Not Found');
 			echo '<!DOCTYPE html><html><head></head><body><h1>Error 404</h1><p>Page you requested was not found.</p></body></html>';
-			exit;
+			return;
 		}
 		
 		switch ($action) {
@@ -156,7 +167,7 @@ class Application
 	 */
 	private function isSecured()
 	{
-		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
 	}
 	
 	/**
