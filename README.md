@@ -9,7 +9,7 @@ CORS proxy is a free service for developers who need to bypass same-origin polic
 
 ## Documentation
 
-Learn more in the [documentation](./blob/master/docs/en/index.md).
+Learn more in the [documentation](docs/en/index.md).
 
 ## Project home
 

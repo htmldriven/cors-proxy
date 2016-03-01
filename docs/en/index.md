@@ -13,7 +13,7 @@ Read the following section if you want to run the CORS proxy on your own webserv
 
 ### Requirements
 
-Please, check the [composer.json](./blob/master/composer.json) file or [packagist.org](https://packagist.org/packages/htmldriven/cors-proxy) to see the current list of requirements in terms of packages which are required by ]composer](https://getcomposer.org/). Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements
+Please, check the [composer.json](../../composer.json) file or [packagist.org](https://packagist.org/packages/htmldriven/cors-proxy) to see the current list of requirements in terms of packages which are required by ]composer](https://getcomposer.org/). Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements
 
 ### Installation
 
@@ -25,7 +25,7 @@ $ composer create-project htmldriven/cors-proxy my-cors-proxy
 
 ### Configuration
 
-If you need, you can customize the CORS proxy by creating custom `config.ini` file. This file must be located at [app/config](./blob/master/app/config) directory. There's already [config.sample.ini](./blob/master/app/config/config.sample.ini) file, which you can just copy and edit some parts of it to match your needs.
+If you need, you can customize the CORS proxy by creating custom `config.ini` file. This file must be located at [app/config](../../app/config) directory. There's already [config.sample.ini](../../app/config/config.sample.ini) file, which you can just copy and edit some parts of it to match your needs.
 
 There are several config items which you can change. The following list shows all supported options:
 
@@ -37,4 +37,4 @@ There are several config items which you can change. The following list shows al
 
 ## License
 
-CORS proxy is totally free as it's available and being distributed under [The MIT License](./blob/master/LICENSE).
+CORS proxy is totally free as it's available and being distributed under [The MIT License](../../LICENSE).
