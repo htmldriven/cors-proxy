@@ -36,6 +36,8 @@ class RequestHandler
 			'body' => NULL,
 		];
 		
+		$this->enableCrossDomainRequests();
+		
 		try {
 			$result = $request->send(TRUE);
 		} catch (CurlException $e) {
@@ -58,5 +60,16 @@ class RequestHandler
 
 		header('Content-Type: application/json');
 		echo json_encode($json);
+	}
+	
+	/**
+	 * Enables cross-domain requests.
+	 * 
+	 * @return void
+	 */
+	private function enableCrossDomainRequests()
+	{
+		header_remove('Access-Control-Allow-Origin');
+		header('Access-Control-Allow-Origin: *');
 	}
 }
