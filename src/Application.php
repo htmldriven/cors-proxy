@@ -25,7 +25,8 @@ class Application
 		'userAgent' => 'htmldriven/cors-proxy 1.0',
 		'templateFile' => __DIR__ . '/../app/templates/default/frontend.phtml',
 		'sitemapPath' => '/sitemap.xml',
-		'sitemapFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
+		'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
+		'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
 	];
 	
 	/** @var Config */
@@ -90,14 +91,16 @@ class Application
 		
 		// absolutize filepaths
 		$config['templateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['templateFile']);
-		$config['sitemapFile'] = Helpers::absolutizeFilepath(__DIR__, $config['sitemapFile']);
+		$config['sitemapTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['sitemapTemplateFile']);
+		$config['errorTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['errorTemplateFile']);
 		
 		return new Config(
 			$config['urlParameterName'],
 			$config['userAgent'],
 			$config['templateFile'],
 			$config['sitemapPath'],
-			$config['sitemapFile']
+			$config['sitemapTemplateFile'],
+			$config['errorTemplateFile']
 		);
 	}
 	
@@ -128,6 +131,8 @@ class Application
 		
 		$action = NULL;
 		
+		$error = NULL;
+		
 		$requestUri = isset($_SERVER['REQUEST_URI']) ? rtrim($_SERVER['REQUEST_URI'], '/') : NULL;
 		if (isset($requestUri)) {
 			if ($requestUri === '/index.php') {
@@ -140,22 +145,25 @@ class Application
 				$action = 'sitemap';
 			}
 		} else {
+			$error = 500;
 			header('HTTP/1.1 500 Internal Server Error');
-			return;
 		}
 		
 		if (!in_array($action, $this->allowedActions, TRUE)) {
+			$action = 'error';
+			$error = 404;
 			header('HTTP/1.1 404 Not Found');
-			echo '<!DOCTYPE html><html><head></head><body><h1>Error 404</h1><p>Page you requested was not found.</p></body></html>';
-			return;
 		}
 		
 		switch ($action) {
 			case 'sitemap':
-				require $config->getSitemapFile();
+				require $config->getSitemapTemplateFile();
 				break;
 			case 'frontend':
 				require $config->getTemplateFile();
+				break;
+			case 'error':
+				require $config->getErrorTemplateFile();
 				break;
 		}
 	}

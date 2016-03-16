@@ -22,7 +22,10 @@ class Config
 	private $sitemapPath;
 	
 	/** @var string */
-	private $sitemapFile;
+	private $sitemapTemplateFile;
+	
+	/** @var string */
+	private $errorTemplateFile;
 	
 	/**
 	 * @param string
@@ -30,24 +33,28 @@ class Config
 	 * @param string
 	 * @param string
 	 * @param string
-	 * @throws FileNotFoundException If template/sitemap file does not exist.
+	 * @param string
+	 * @throws FileNotFoundException If template/sitemap/error file does not exist.
 	 */
 	public function __construct(
 		$urlParameterName,
 		$userAgent,
 		$templateFile,
 		$sitemapPath,
-		$sitemapFile
+		$sitemapTemplateFile,
+		$errorTemplateFile
 	)
 	{
 		Helpers::checkFileExists($templateFile);
-		Helpers::checkFileExists($sitemapFile);
+		Helpers::checkFileExists($sitemapTemplateFile);
+		Helpers::checkFileExists($errorTemplateFile);
 		
 		$this->urlParameterName = $urlParameterName;
 		$this->userAgent = $userAgent;
 		$this->templateFile = $templateFile;
 		$this->sitemapPath = $sitemapPath;
-		$this->sitemapFile = $sitemapFile;
+		$this->sitemapTemplateFile = $sitemapTemplateFile;
+		$this->errorTemplateFile = $errorTemplateFile;
 	}
 	
 	/**
@@ -85,8 +92,16 @@ class Config
 	/**
 	 * @return string
 	 */
-	public function getSitemapFile()
+	public function getSitemapTemplateFile()
 	{
-		return $this->sitemapFile;
+		return $this->sitemapTemplateFile;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getErrorTemplateFile()
+	{
+		return $this->errorTemplateFile;
 	}
 }

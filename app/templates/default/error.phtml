@@ -1,0 +1,22 @@
+<?php
+$message = 'Server encountered an error and was unable to handle the request.';
+if (isset($error)) {
+	switch ($error) {
+		case 404:
+			$message = 'Page you requested was not found.';
+			break;
+	}
+} else {
+	$error = 500;
+}
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CORS proxy Error</title>
+	</head>
+	<body>
+		<h1>Error <?php echo $error; ?></h1>
+		<p><?php echo $message; ?></p>
+	</body>
+</html>

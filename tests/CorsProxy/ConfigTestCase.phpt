@@ -28,14 +28,16 @@ final class ConfigTestCase extends TestCase
 			$userAgent = 'My CORS proxy',
 			$templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml',
 			$sitemapPath = '/sitemap.xml',
-			$sitemapFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml'
+			$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml',
+			$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml'
 		);
 		
 		Assert::same($urlParameterName, $config->getUrlParameterName());
 		Assert::same($userAgent, $config->getUserAgent());
 		Assert::same($templateFile, $config->getTemplateFile());
 		Assert::same($sitemapPath, $config->getSitemapPath());
-		Assert::same($sitemapFile, $config->getSitemapFile());
+		Assert::same($sitemapTemplateFile, $config->getSitemapTemplateFile());
+		Assert::same($errorTemplateFile, $config->getErrorTemplateFile());
 	}
 	
 	/**
@@ -47,15 +49,17 @@ final class ConfigTestCase extends TestCase
 		$userAgent = 'My CORS proxy';
 		$templateFile = __DIR__ . '/../data/app/templates/foo/invalid-frontend.phtml';
 		$sitemapPath = '/sitemap.xml';
-		$sitemapFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
+		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
+		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
 		
-		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapFile) {
+		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
 			new Config(
 				$urlParameterName,
 				$userAgent,
 				$templateFile,
 				$sitemapPath,
-				$sitemapFile
+				$sitemapTemplateFile,
+				$errorTemplateFile
 			);
 		}, FileNotFoundException::class, "File '{$templateFile}' does not exist or not accessible.");
 		
@@ -64,23 +68,49 @@ final class ConfigTestCase extends TestCase
 	/**
 	 * @return void
 	 */
-	public function testInvalidSitemapFile()
+	public function testInvalidSitemapTemplateFile()
 	{
 		$urlParameterName = 'my-url';
 		$userAgent = 'My CORS proxy';
 		$templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml';
 		$sitemapPath = '/sitemap.xml';
-		$sitemapFile = __DIR__ . '/../data/app/templates/foo/invalid-sitemap.pxml';
+		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-sitemap.pxml';
+		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
 		
-		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapFile) {
+		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
 			new Config(
 				$urlParameterName,
 				$userAgent,
 				$templateFile,
 				$sitemapPath,
-				$sitemapFile
+				$sitemapTemplateFile,
+				$errorTemplateFile
 			);
-		}, FileNotFoundException::class, "File '{$sitemapFile}' does not exist or not accessible.");
+		}, FileNotFoundException::class, "File '{$sitemapTemplateFile}' does not exist or not accessible.");
+	}
+	
+	/**
+	 * @return void
+	 */
+	public function testInvaliErrorTemplateFile()
+	{
+		$urlParameterName = 'my-url';
+		$userAgent = 'My CORS proxy';
+		$templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml';
+		$sitemapPath = '/sitemap.xml';
+		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
+		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-error.phtml';
+		
+		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
+			new Config(
+				$urlParameterName,
+				$userAgent,
+				$templateFile,
+				$sitemapPath,
+				$sitemapTemplateFile,
+				$errorTemplateFile
+			);
+		}, FileNotFoundException::class, "File '{$errorTemplateFile}' does not exist or not accessible.");
 	}
 }
 
