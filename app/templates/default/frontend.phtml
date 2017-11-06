@@ -2,18 +2,18 @@
 <html lang="en">
 	<head>
 		<title>CORS proxy | HTMLDriven.com</title>
-		
+
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
+
 		<meta name="description" content="CORS proxy is a free service for developers who need to bypass same-origin policy related to performing standard AJAX requests to 3rd party services.">
 		<meta name="keywords" content="CORS proxy, cross-domain request, open-source, HTML-driven">
-		<meta name="author" content="Jiri Rebenda, HTMLDriven (c) 2016">
+		<meta name="author" content="Jiri Rebenda, HTMLDriven (c) 2017">
 		<meta name="robots" content="all,follow">
-		
+
 		<link rel="shortcut icon" href="<?php echo $basePath; ?>/assets/default/img/favicon.ico">
-		
+
 		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link type="text/css" rel="stylesheet" href="<?php echo $basePath; ?>/assets/default/css/main.css">
@@ -47,12 +47,12 @@
 				</div>
 			</div>
 		</nav>
-		
+
 		<div class="container">
 			<div class="page-header">
 				<h1>CORS proxy <small>by <a href="http://www.htmldriven.com">HTMLDriven</a></small></h1>
 			</div>
-			
+
 			<form class="form-inline request-form" data-request-url="<?php echo $domainUrl; ?><?php echo $basePath; ?>/?<?php echo $config->getUrlParameterName(); ?>={url}">
 				<div class="input-group input-group-lg" style="width:100%;">
 					<div class="input-group-btn" style="width:1%;">
@@ -85,15 +85,15 @@
 			<section id="setup">
 				<h2>Setup</h2>
 				<p>Read the following section if you want to run the CORS proxy on your own webserver.</p>
-				
+
 				<h3>Requirements</h3>
 				<p>Please, check the <a href="https://www.github.com/htmldriven/cors-proxy/blob/master/composer.json">composer.json</a> file or <a href="https://packagist.org/packages/htmldriven/cors-proxy">packagist.org</a> to see the current list of requirements in terms of packages which are required by <a href="https://getcomposer.org">composer</a>. Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements</p>
-				
+
 				<h3>Installation</h3>
 				<p>The best way to install the CORS proxy is using the <a href="https://getcomposer.org">composer</a>. You can do that using the following command:</p>
 				<pre>composer create-project htmldriven/cors-proxy my-cors-proxy</pre>
 				<p class="">* Note that my-cors-proxy in the command above is the name of target directory for newly created CORS proxy project, so this name is totally up to you.</p>
-				
+
 				<h3>Configuration</h3>
 				<p>If you need, you can customize the CORS proxy by creating custom config.ini file. This file must be located at app/config directory. There's already config.sample.ini file, which you can just copy and edit some parts of it to match your needs.</p>
 				<p>There are several config items which you can change. The following list shows all supported options:</p>
@@ -111,13 +111,13 @@
 				<p>CORS proxy is totally free as it's available and being distributed under <a href="https://github.com/htmldriven/cors-proxy/blob/master/LICENSE">The MIT License</a>.</p>
 			</section>
 		</div>
-		
+
 		<footer class="footer">
 			<div class="container text-center">
-				<small class="copyright">Developed with <i class="fa fa-heart"></i> by <a href="http://www.htmldriven.com">Jiri Rebenda | HTMLDriven</a> &copy; 2016 for developers</small>
+				<small class="copyright">Developed with <i class="fa fa-heart"></i> by <a href="http://www.htmldriven.com">Jiri Rebenda | HTMLDriven</a> &copy; 2017 for developers</small>
 			</div>
 		</footer>
-		
+
 		<div id="request-response-modal" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -137,14 +137,14 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo $basePath; ?>/assets/default/js/main.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		
+
 		<!-- cookie law -->
 		<script src="http://d2z9iq901qkqk8.cloudfront.net/en.js" async></script>
-		
+
 		<!-- GA -->
 		<script type="text/javascript">
 			if (document.location.hostname.indexOf('localhost') === -1) {
@@ -157,7 +157,7 @@
 				ga('send', 'pageview');
 			}
 		</script>
-		
+
 		<!-- FB -->
 		<script type="text/javascript">
 			window.fbAsyncInit = function() {
@@ -176,10 +176,10 @@
 				fjs.parentNode.insertBefore(js, fjs);
 			 }(document, 'script', 'facebook-jssdk'));
 		</script>
-		
+
 		<!-- Twitter -->
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-		
+
 		<!-- GitHub -->
 		<script async="async" defer="defer" id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 	</body>
