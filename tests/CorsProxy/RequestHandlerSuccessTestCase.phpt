@@ -3,6 +3,7 @@
 namespace HtmlDrivenTests\CorsProxy;
 
 use Guzzle\Http\Message\Response;
+use Guzzle\Http\Message\RequestInterface;
 use HtmlDriven\CorsProxy\RequestHandler;
 use HtmlDrivenTests\CorsProxy\Mock\FakeClient;
 use HtmlDrivenTests\CorsProxy\Mock\FakeRequest;
@@ -16,7 +17,7 @@ require_once __DIR__ . '/../bootstrap.php';
  * Successful request handling tests.
  *
  * @author RebendaJiri <jiri.rebenda@htmldriven.com>
- * 
+ *
  * @testCase
  */
 class RequestHandlerSuccessTestCase extends TestCase
@@ -29,24 +30,27 @@ class RequestHandlerSuccessTestCase extends TestCase
 		$statusCode = 200;
 		$headers = [];
 		$body = 'Lorem ipsum dolor sit amet.';
-		
+
 		$response = new Response($statusCode, $headers, $body);
-		
+
 		$fakeRequest = new FakeRequest($response);
 		$fakeClient = new FakeClient($fakeRequest);
-		
+
 		$requestHandler = new RequestHandler($fakeClient);
-		
+
 		ob_start();
-		$requestHandler->handleRequest('http://www.htmldriven.com/sample.json');
+		$requestHandler->handleRequest(
+			RequestInterface::GET,
+			'http://www.htmldriven.com/sample.json'
+		);
 		$contents = ob_get_clean();
-		
+
 		$json = [
 			'success' => TRUE,
 			'error' => NULL,
 			'body' => 'Lorem ipsum dolor sit amet.',
 		];
-		
+
 		Assert::same(json_encode($json), $contents);
 	}
 }
