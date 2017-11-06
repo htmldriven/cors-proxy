@@ -14,36 +14,37 @@ class RequestHandler
 {
 	/** @var ClientInterface */
 	private $client;
-	
+
 	public function __construct(ClientInterface $client)
 	{
 		$this->client = $client;
 	}
-	
+
 	/**
 	 * Sends the request to given URL and returns JSON response.
-	 * 
+	 *
+	 * @param string
 	 * @param string
 	 * @return void
 	 */
-	public function handleRequest($url)
+	public function handleRequest($method, $url)
 	{
-		$request = $this->client->get($url);
+		$request = $this->client->createRequest($method, $url);
 
 		$json = [
 			'success' => TRUE,
 			'error' => NULL,
 			'body' => NULL,
 		];
-		
+
 		$this->enableCrossDomainRequests();
-		
+
 		try {
 			$result = $request->send(TRUE);
 		} catch (CurlException $e) {
 			$json['success'] = FALSE;
 			$json['error'] = sprintf("Unable to handle request: CURL failed with message '%s'.", $e->getError());
-			
+
 			switch ($e->getErrorNo()) {
 				case CURLE_COULDNT_RESOLVE_HOST:
 					http_response_code(404);
@@ -61,10 +62,10 @@ class RequestHandler
 		header('Content-Type: application/json');
 		echo json_encode($json);
 	}
-	
+
 	/**
 	 * Enables cross-domain requests.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function enableCrossDomainRequests()
