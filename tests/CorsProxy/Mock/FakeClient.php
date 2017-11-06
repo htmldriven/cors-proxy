@@ -17,7 +17,7 @@ class FakeClient implements ClientInterface
 {
 	/** @var FakeRequest */
 	private $fakeRequest;
-	
+
 	/**
 	 * @param FakeRequest
 	 */
@@ -25,15 +25,15 @@ class FakeClient implements ClientInterface
 	{
 		$this->fakeRequest = $fakeRequest;
 	}
-	
+
 	public function addSubscriber(EventSubscriberInterface $subscriber)
 	{
-		
+
 	}
 
 	public function createRequest($method = RequestInterface::GET, $uri = NULL, $headers = NULL, $body = NULL, array $options = [])
 	{
-		
+		return $this->fakeRequest;
 	}
 
 	public function delete($uri = NULL, $headers = NULL, $body = NULL, array $options = [])
