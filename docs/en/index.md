@@ -2,7 +2,8 @@
 
 ## How to use
 
-The CORS proxy service expects you provide the URL of 3rd party service/page in `url` HTTP GET parameter by default.
+The CORS proxy service expects you provide the URL of 3rd party service/page in `url` HTTP GET parameter by default. HTTP method used when accessing this endpoint is used in subsequent HTTP request.
+
 A final cross-domain request URL via the CORS proxy service can be handled, looks something like this:
 
 ```
