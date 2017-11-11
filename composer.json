@@ -32,7 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "HtmlDriven\\CorsProxyTests\\": "tests/CorsProxy"
+            "HtmlDriven\\CorsProxyTests\\": "tests/CorsProxyTests"
         }
     }
 }
