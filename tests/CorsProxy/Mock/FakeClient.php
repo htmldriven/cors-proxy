@@ -1,10 +1,10 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy\Mock;
+namespace HtmlDriven\CorsProxyTests\Mock;
 
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
-use HtmlDrivenTests\CorsProxy\Mock\FakeRequest;
+use HtmlDriven\CorsProxyTests\Mock\FakeRequest;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

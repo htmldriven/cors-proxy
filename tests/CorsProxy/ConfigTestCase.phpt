@@ -1,6 +1,6 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy;
+namespace HtmlDriven\CorsProxyTests;
 
 use HtmlDriven\CorsProxy\Config;
 use HtmlDriven\CorsProxy\Exception\FileNotFoundException;

@@ -1,12 +1,12 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy;
+namespace HtmlDriven\CorsProxyTests;
 
 use Guzzle\Http\Message\Response;
 use Guzzle\Http\Message\RequestInterface;
 use HtmlDriven\CorsProxy\RequestHandler;
-use HtmlDrivenTests\CorsProxy\Mock\FakeClient;
-use HtmlDrivenTests\CorsProxy\Mock\FakeRequest;
+use HtmlDriven\CorsProxyTests\Mock\FakeClient;
+use HtmlDriven\CorsProxyTests\Mock\FakeRequest;
 use Tester\Assert;
 use Tester\TestCase;
 use function run;
