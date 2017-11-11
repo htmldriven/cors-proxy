@@ -17,15 +17,13 @@
 		"guzzlehttp/guzzle": "~3.8"
 	},
 	"require-dev": {
-		"nette/tester": "^1.6"
+		"nette/tester": "^1.6",
+        "squizlabs/php_codesniffer": "^3.1"
 	},
 	"autoload": {
 		"psr-4": {
 			"HtmlDriven\\CorsProxy\\": "src/"
-		},
-		"classmap": [
-			"src/exceptions.php"
-		]
+		}
 	},
 	"autoload-dev": {
 		"psr-4": {

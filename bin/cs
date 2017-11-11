@@ -1,0 +1,5 @@
+#!/bin/bash
+
+_DIR=$(dirname $0);
+
+"$_DIR"/../vendor/bin/phpcs -p --standard=PSR2 "$_DIR"/../src "$_DIR"/../tests

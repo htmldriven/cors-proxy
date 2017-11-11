@@ -3,7 +3,7 @@
 namespace HtmlDrivenTests\CorsProxy;
 
 use HtmlDriven\CorsProxy\Config;
-use HtmlDriven\CorsProxy\FileNotFoundException;
+use HtmlDriven\CorsProxy\Exception\FileNotFoundException;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -13,7 +13,7 @@ require_once __DIR__ . '/../bootstrap.php';
  * Configuration object tests.
  *
  * @author RebendaJiri <jiri.rebenda@htmldriven.com>
- * 
+ *
  * @testCase
  */
 final class ConfigTestCase extends TestCase
@@ -31,7 +31,7 @@ final class ConfigTestCase extends TestCase
 			$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml',
 			$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml'
 		);
-		
+
 		Assert::same($urlParameterName, $config->getUrlParameterName());
 		Assert::same($userAgent, $config->getUserAgent());
 		Assert::same($templateFile, $config->getTemplateFile());
@@ -39,7 +39,7 @@ final class ConfigTestCase extends TestCase
 		Assert::same($sitemapTemplateFile, $config->getSitemapTemplateFile());
 		Assert::same($errorTemplateFile, $config->getErrorTemplateFile());
 	}
-	
+
 	/**
 	 * @return void
 	 */
@@ -51,7 +51,7 @@ final class ConfigTestCase extends TestCase
 		$sitemapPath = '/sitemap.xml';
 		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
 		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
-		
+
 		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
 			new Config(
 				$urlParameterName,
@@ -62,9 +62,9 @@ final class ConfigTestCase extends TestCase
 				$errorTemplateFile
 			);
 		}, FileNotFoundException::class, "File '{$templateFile}' does not exist or not accessible.");
-		
+
 	}
-	
+
 	/**
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ final class ConfigTestCase extends TestCase
 		$sitemapPath = '/sitemap.xml';
 		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-sitemap.pxml';
 		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
-		
+
 		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
 			new Config(
 				$urlParameterName,
@@ -88,7 +88,7 @@ final class ConfigTestCase extends TestCase
 			);
 		}, FileNotFoundException::class, "File '{$sitemapTemplateFile}' does not exist or not accessible.");
 	}
-	
+
 	/**
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ final class ConfigTestCase extends TestCase
 		$sitemapPath = '/sitemap.xml';
 		$sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
 		$errorTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-error.phtml';
-		
+
 		Assert::throws(function() use ($urlParameterName, $userAgent, $templateFile, $sitemapPath, $sitemapTemplateFile, $errorTemplateFile) {
 			new Config(
 				$urlParameterName,

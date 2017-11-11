@@ -15,268 +15,218 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class FakeRequest implements RequestInterface
 {
-	/** @var Response|callable */
-	private $response;
-	
-	/**
-	 * @param Response|callable
-	 */
-	public function __construct($response)
-	{
-		$this->response = $response;
-	}
-	
-	public function __toString()
-	{
-		
-	}
+    /** @var Response|callable */
+    private $response;
 
-	public function addCookie($name, $value)
-	{
-		
-	}
+    /**
+     * @param Response|callable
+     */
+    public function __construct($response)
+    {
+        $this->response = $response;
+    }
 
-	public function addHeader($header, $value)
-	{
-		
-	}
+    public function __toString()
+    {
+    }
 
-	public function addHeaders(array $headers)
-	{
-		
-	}
+    public function addCookie($name, $value)
+    {
+    }
 
-	public function addSubscriber(EventSubscriberInterface $subscriber)
-	{
-		
-	}
+    public function addHeader($header, $value)
+    {
+    }
 
-	public function dispatch($eventName, array $context = array())
-	{
-		
-	}
+    public function addHeaders(array $headers)
+    {
+    }
 
-	public function getClient()
-	{
-		
-	}
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+    }
 
-	public function getCookie($name)
-	{
-		
-	}
+    public function dispatch($eventName, array $context = array())
+    {
+    }
 
-	public function getCookies()
-	{
-		
-	}
+    public function getClient()
+    {
+    }
 
-	public function getCurlOptions()
-	{
-		
-	}
+    public function getCookie($name)
+    {
+    }
 
-	public function getEventDispatcher()
-	{
-		
-	}
+    public function getCookies()
+    {
+    }
 
-	public function getHeader($header)
-	{
-		
-	}
+    public function getCurlOptions()
+    {
+    }
 
-	public function getHeaderLines()
-	{
-		
-	}
+    public function getEventDispatcher()
+    {
+    }
 
-	public function getHeaders()
-	{
-		
-	}
+    public function getHeader($header)
+    {
+    }
 
-	public function getHost()
-	{
-		
-	}
+    public function getHeaderLines()
+    {
+    }
 
-	public function getMethod()
-	{
-		
-	}
+    public function getHeaders()
+    {
+    }
 
-	public function getParams()
-	{
-		
-	}
+    public function getHost()
+    {
+    }
 
-	public function getPassword()
-	{
-		
-	}
+    public function getMethod()
+    {
+    }
 
-	public function getPath()
-	{
-		
-	}
+    public function getParams()
+    {
+    }
 
-	public function getPort()
-	{
-		
-	}
+    public function getPassword()
+    {
+    }
 
-	public function getProtocolVersion()
-	{
-		
-	}
+    public function getPath()
+    {
+    }
 
-	public function getQuery()
-	{
-		
-	}
+    public function getPort()
+    {
+    }
 
-	public function getRawHeaders()
-	{
-		
-	}
+    public function getProtocolVersion()
+    {
+    }
 
-	public function getResource()
-	{
-		
-	}
+    public function getQuery()
+    {
+    }
 
-	public function getResponse()
-	{
-		
-	}
+    public function getRawHeaders()
+    {
+    }
 
-	public function getResponseBody()
-	{
-		
-	}
+    public function getResource()
+    {
+    }
 
-	public function getScheme()
-	{
-		
-	}
+    public function getResponse()
+    {
+    }
 
-	public function getState()
-	{
-		
-	}
+    public function getResponseBody()
+    {
+    }
 
-	public function getUrl($asObject = false)
-	{
-		
-	}
+    public function getScheme()
+    {
+    }
 
-	public function getUsername()
-	{
-		
-	}
+    public function getState()
+    {
+    }
 
-	public function hasHeader($header)
-	{
-		
-	}
+    public function getUrl($asObject = false)
+    {
+    }
 
-	public function removeCookie($name)
-	{
-		
-	}
+    public function getUsername()
+    {
+    }
 
-	public function removeHeader($header)
-	{
-		
-	}
-	
-	public function send()
-	{
-		if (is_callable($this->response)) {
-			return call_user_func($this->response);
-		}
-		return $this->response;
-	}
+    public function hasHeader($header)
+    {
+    }
 
-	public function setAuth($user, $password = '', $scheme = 'Basic')
-	{
-		
-	}
+    public function removeCookie($name)
+    {
+    }
 
-	public function setClient(ClientInterface $client)
-	{
-		
-	}
+    public function removeHeader($header)
+    {
+    }
 
-	public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
-	{
-		
-	}
+    public function send()
+    {
+        if (is_callable($this->response)) {
+            return call_user_func($this->response);
+        }
+        return $this->response;
+    }
 
-	public function setHeader($header, $value)
-	{
-		
-	}
+    public function setAuth($user, $password = '', $scheme = 'Basic')
+    {
+    }
 
-	public function setHeaders(array $headers)
-	{
-		
-	}
+    public function setClient(ClientInterface $client)
+    {
+    }
 
-	public function setHost($host)
-	{
-		
-	}
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
-	public function setPath($path)
-	{
-		
-	}
+    public function setHeader($header, $value)
+    {
+    }
 
-	public function setPort($port)
-	{
-		
-	}
+    public function setHeaders(array $headers)
+    {
+    }
 
-	public function setProtocolVersion($protocol)
-	{
-		
-	}
+    public function setHost($host)
+    {
+    }
 
-	public function setResponse(Response $response, $queued = false)
-	{
-		
-	}
+    public function setPath($path)
+    {
+    }
 
-	public function setResponseBody($body)
-	{
-		
-	}
+    public function setPort($port)
+    {
+    }
 
-	public function setScheme($scheme)
-	{
-		
-	}
+    public function setProtocolVersion($protocol)
+    {
+    }
 
-	public function setState($state, array $context = array())
-	{
-		
-	}
+    public function setResponse(Response $response, $queued = false)
+    {
+    }
 
-	public function setUrl($url)
-	{
-		
-	}
+    public function setResponseBody($body)
+    {
+    }
 
-	public function startResponse(Response $response)
-	{
-		
-	}
+    public function setScheme($scheme)
+    {
+    }
 
-	public static function getAllEvents()
-	{
-		
-	}
+    public function setState($state, array $context = array())
+    {
+    }
 
+    public function setUrl($url)
+    {
+    }
+
+    public function startResponse(Response $response)
+    {
+    }
+
+    public static function getAllEvents()
+    {
+    }
 }

@@ -15,114 +15,101 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class FakeClient implements ClientInterface
 {
-	/** @var FakeRequest */
-	private $fakeRequest;
+    /** @var FakeRequest */
+    private $fakeRequest;
 
-	/**
-	 * @param FakeRequest
-	 */
-	public function __construct(FakeRequest $fakeRequest)
-	{
-		$this->fakeRequest = $fakeRequest;
-	}
+    /**
+     * @param FakeRequest
+     */
+    public function __construct(FakeRequest $fakeRequest)
+    {
+        $this->fakeRequest = $fakeRequest;
+    }
 
-	public function addSubscriber(EventSubscriberInterface $subscriber)
-	{
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+    }
 
-	}
+    public function createRequest(
+        $method = RequestInterface::GET,
+        $uri = null,
+        $headers = null,
+        $body = null,
+        array $options = []
+    ) {
+        return $this->fakeRequest;
+    }
 
-	public function createRequest($method = RequestInterface::GET, $uri = NULL, $headers = NULL, $body = NULL, array $options = [])
-	{
-		return $this->fakeRequest;
-	}
+    public function delete($uri = null, $headers = null, $body = null, array $options = [])
+    {
+    }
 
-	public function delete($uri = NULL, $headers = NULL, $body = NULL, array $options = [])
-	{
+    public function dispatch($eventName, array $context = [])
+    {
+    }
 
-	}
+    public function get($uri = null, $headers = null, $options = [])
+    {
+        return $this->fakeRequest;
+    }
 
-	public function dispatch($eventName, array $context = [])
-	{
+    public function getBaseUrl($expand = true)
+    {
+    }
 
-	}
+    public function getConfig($key = false)
+    {
+    }
 
-	public function get($uri = NULL, $headers = NULL, $options = [])
-	{
-		return $this->fakeRequest;
-	}
+    public function getEventDispatcher()
+    {
+    }
 
-	public function getBaseUrl($expand = TRUE)
-	{
+    public function head($uri = null, $headers = null, array $options = [])
+    {
+    }
 
-	}
+    public function options($uri = null, array $options = [])
+    {
+    }
 
-	public function getConfig($key = FALSE)
-	{
+    public function patch($uri = null, $headers = null, $body = null, array $options = [])
+    {
+    }
 
-	}
+    public function post($uri = null, $headers = null, $postBody = null, array $options = [])
+    {
+    }
 
-	public function getEventDispatcher()
-	{
+    public function put($uri = null, $headers = null, $body = null, array $options = [])
+    {
+    }
 
-	}
+    public function send($requests)
+    {
+    }
 
-	public function head($uri = NULL, $headers = NULL, array $options = [])
-	{
+    public function setBaseUrl($url)
+    {
+    }
 
-	}
+    public function setConfig($config)
+    {
+    }
 
-	public function options($uri = NULL, array $options = [])
-	{
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
-	}
+    public function setSslVerification($certificateAuthority = true, $verifyPeer = true, $verifyHost = 2)
+    {
+    }
 
-	public function patch($uri = NULL, $headers = NULL, $body = NULL, array $options = [])
-	{
+    public function setUserAgent($userAgent, $includeDefault = false)
+    {
+    }
 
-	}
-
-	public function post($uri = NULL, $headers = NULL, $postBody = NULL, array $options = [])
-	{
-
-	}
-
-	public function put($uri = NULL, $headers = NULL, $body = NULL, array $options = [])
-	{
-
-	}
-
-	public function send($requests)
-	{
-
-	}
-
-	public function setBaseUrl($url)
-	{
-
-	}
-
-	public function setConfig($config)
-	{
-
-	}
-
-	public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
-	{
-
-	}
-
-	public function setSslVerification($certificateAuthority = TRUE, $verifyPeer = TRUE, $verifyHost = 2)
-	{
-
-	}
-
-	public function setUserAgent($userAgent, $includeDefault = FALSE)
-	{
-
-	}
-
-	public static function getAllEvents()
-	{
-
-	}
+    public static function getAllEvents()
+    {
+    }
 }
