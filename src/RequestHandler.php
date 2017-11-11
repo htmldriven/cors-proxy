@@ -3,7 +3,7 @@
 namespace HtmlDriven\CorsProxy;
 
 use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\RequestException;
 
 /**
  * Handles actual request sending.
@@ -41,7 +41,7 @@ class RequestHandler
 
 		try {
 			$result = $request->send(TRUE);
-		} catch (CurlException $e) {
+		} catch (RequestException $e) {
 			$json['success'] = FALSE;
 			$json['error'] = sprintf("Unable to handle request: CURL failed with message '%s'.", $e->getError());
 
