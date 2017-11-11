@@ -1,6 +1,6 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy\Helpers;
+namespace HtmlDriven\CorsProxyTests\Helpers;
 
 use Tester\Environment as TesterEnvironment;
 use Tester\Helpers;

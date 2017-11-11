@@ -1,6 +1,6 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy\Mock;
+namespace HtmlDriven\CorsProxyTests\Mock;
 
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
