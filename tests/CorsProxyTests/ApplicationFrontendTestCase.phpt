@@ -34,7 +34,8 @@ final class ApplicationFrontendTestCase extends TestCase
 			__DIR__ . '/../data/app/templates/foo/frontend.phtml',
 			'/custom-sitemap.xml',
 			__DIR__ . '/../data/app/templates/foo/sitemap.pxml',
-			__DIR__ . '/../data/app/templates/foo/error.phtml'
+			__DIR__ . '/../data/app/templates/foo/error.phtml',
+			[]
 		);
 	}
 

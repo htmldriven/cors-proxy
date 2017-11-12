@@ -80,14 +80,17 @@ class FakeRequest implements RequestInterface
 
     public function getHeaders()
     {
+        return [];
     }
 
     public function getHost()
     {
+        return 'cors-proxy.htmldriven.com';
     }
 
     public function getMethod()
     {
+        return 'GET';
     }
 
     public function getParams()
@@ -100,6 +103,7 @@ class FakeRequest implements RequestInterface
 
     public function getPath()
     {
+        return '/';
     }
 
     public function getPort()
@@ -132,6 +136,7 @@ class FakeRequest implements RequestInterface
 
     public function getScheme()
     {
+        return 'http';
     }
 
     public function getState()

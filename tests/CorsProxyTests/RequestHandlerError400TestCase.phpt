@@ -2,6 +2,7 @@
 
 namespace HtmlDriven\CorsProxyTests;
 
+use Dibi\Connection as DibiConnection;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Message\RequestInterface;
 use HtmlDriven\CorsProxy\RequestHandler;
@@ -41,7 +42,13 @@ class RequestHandlerError404TestCase extends TestCase
 		$fakeRequest = new FakeRequest($response);
 		$fakeClient = new FakeClient($fakeRequest);
 
-		$requestHandler = new RequestHandler($fakeClient);
+		$dibiConnection = new DibiConnection([
+			'driver' => 'PDO',
+			'dsn' => 'mysql:dbname=cors_proxy;host=' . MYSQL_HOST . ';charset=utf8mb4',
+			'username' => 'cors_proxy',
+		]);
+
+		$requestHandler = new RequestHandler($fakeClient, $dibiConnection);
 
 		ob_start();
 		$requestHandler->handleRequest(
