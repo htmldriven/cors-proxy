@@ -1,11 +1,13 @@
 <?php
 
-namespace HtmlDrivenTests\CorsProxy;
+namespace HtmlDriven\CorsProxyTests;
 
+use Dibi\Connection as DibiConnection;
 use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Message\RequestInterface;
 use HtmlDriven\CorsProxy\RequestHandler;
-use HtmlDrivenTests\CorsProxy\Mock\FakeClient;
-use HtmlDrivenTests\CorsProxy\Mock\FakeRequest;
+use HtmlDriven\CorsProxyTests\Mock\FakeClient;
+use HtmlDriven\CorsProxyTests\Mock\FakeRequest;
 use Tester\Assert;
 use Tester\TestCase;
 use function run;
@@ -16,7 +18,7 @@ require_once __DIR__ . '/../bootstrap.php';
  * Tests invalid host name results in 400 HTTP error.
  *
  * @author RebendaJiri <jiri.rebenda@htmldriven.com>
- * 
+ *
  * @testCase
  * @httpCode 400
  */
@@ -30,28 +32,37 @@ class RequestHandlerError404TestCase extends TestCase
 		$statusCode = 404;
 		$headers = [];
 		$body = 'Lorem ipsum dolor sit amet.';
-		
+
 		$response = function() {
 			$curlException = new CurlException();
 			$curlException->setError('Could not connect.', CURLE_COULDNT_CONNECT);
 			throw $curlException;
 		};
-		
+
 		$fakeRequest = new FakeRequest($response);
 		$fakeClient = new FakeClient($fakeRequest);
-		
-		$requestHandler = new RequestHandler($fakeClient);
-		
+
+		$dibiConnection = new DibiConnection([
+			'driver' => 'PDO',
+			'dsn' => 'mysql:dbname=cors_proxy;host=' . MYSQL_HOST . ';charset=utf8mb4',
+			'username' => 'cors_proxy',
+		]);
+
+		$requestHandler = new RequestHandler($fakeClient, $dibiConnection);
+
 		ob_start();
-		$requestHandler->handleRequest('http://unknown-host-123-cba.htmldriven.com/sample.json');
+		$requestHandler->handleRequest(
+			RequestInterface::GET,
+			'http://unknown-host-123-cba.htmldriven.com/sample.json'
+		);
 		$contents = ob_get_clean();
-		
+
 		$json = [
 			'success' => FALSE,
 			'error' => "Unable to handle request: CURL failed with message 'Could not connect.'.",
 			'body' => NULL,
 		];
-		
+
 		Assert::same(json_encode($json), $contents);
 	}
 }

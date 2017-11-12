@@ -2,7 +2,8 @@
 
 ## How to use
 
-The CORS proxy service expects you provide the URL of 3rd party service/page in `url` HTTP GET parameter by default.
+The CORS proxy service expects you provide the URL of 3rd party service/page in `url` HTTP GET parameter by default. HTTP method used when accessing this endpoint is used in subsequent HTTP request.
+
 A final cross-domain request URL via the CORS proxy service can be handled, looks something like this:
 
 ```
@@ -28,6 +29,8 @@ $ composer create-project htmldriven/cors-proxy my-cors-proxy
 
 *Note that my-cors-proxy in the command above is the name of target directory for newly created CORS proxy project, so this name is totally up to you.*
 
+Then, create a destination database using the [cors-proxy.sql](../../app/database/cors-proxy.sql) initialization script.
+
 ### Configuration
 
 If you need, you can customize the CORS proxy by creating custom `config.ini` file. This file must be located at [app/config](../../app/config) directory.
@@ -41,6 +44,8 @@ There are several config items which you can change. The following list shows al
 - `sitemapPath = /sitemap.xml` - URL path to sitemap file
 - `sitemapTemplateFile = app/templates/default/sitemap.pxml` - path to sitemap XML template file
 - `errorTemplateFile = app/templates/default/error.phtml` - path to error template file
+- `timezone = UTC` - default PHP timezone settings used for DateTime instances
+- `database = ...` - database connection settings
 
 ## License
 

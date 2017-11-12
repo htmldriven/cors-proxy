@@ -1,25 +1,46 @@
 language: php
 
+services:
+- mysql
+
 php:
   - 5.6
   - 7.0
   - hhvm
-  
+
 env:
-  - TESTER_PHP_BIN=php
-  
+  global:
+    - TESTER_PHP_BIN=php
+    # configure mysql service (https://hub.docker.com/_/mysql/)
+    - MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    - MYSQL_DATABASE="cors_proxy"
+    - MYSQL_USER="cors_proxy"
+    - MYSQL_PASSWORD=""
+    # docker requires using special host
+    - _MYSQL_HOST="127.0.0.1"
+    # db initialization
+    - DB_INITIALIZATION_SCRIPT="${TRAVIS_BUILD_DIR}/app/database/cors-proxy.sql"
+
 matrix:
   allow_failures:
     - php: hhvm
-  
+
 before_install:
   - composer self-update
-  
+
 install:
   - composer install --no-interaction --prefer-source
-  
+
+before_script:
+# initialize database
+- mysql -e "CREATE DATABASE $MYSQL_DATABASE;"
+- mysql -e "CREATE USER '$MYSQL_USER'@'$_MYSQL_HOST' IDENTIFIED BY '$MYSQL_PASSWORD';"
+- mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO $MYSQL_USER@$_MYSQL_HOST;"
+- mysql -e "FLUSH PRIVILEGES;"
+- mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$_MYSQL_HOST" "$MYSQL_DATABASE" < "$DB_INITIALIZATION_SCRIPT"
+
 script:
-  - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php-unix.ini ./tests
-  
+  - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/environment/php-unix.ini ./tests
+
 after_failure:
   - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'

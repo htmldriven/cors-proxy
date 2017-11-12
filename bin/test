@@ -1,0 +1,5 @@
+#!/bin/bash
+
+_DIR=$(dirname $0);
+
+"$_DIR"/../vendor/bin/tester -s -c "$_DIR"/../tests/environment/php-unix.ini "$_DIR"/../tests -p php
