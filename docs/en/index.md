@@ -44,6 +44,7 @@ There are several config items which you can change. The following list shows al
 - `sitemapPath = /sitemap.xml` - URL path to sitemap file
 - `sitemapTemplateFile = app/templates/default/sitemap.pxml` - path to sitemap XML template file
 - `errorTemplateFile = app/templates/default/error.phtml` - path to error template file
+- `timezone = UTC` - default PHP timezone settings used for DateTime instances
 - `database = ...` - database connection settings
 
 ## License
