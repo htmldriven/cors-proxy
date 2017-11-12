@@ -33,9 +33,6 @@ install:
   - composer install --no-interaction --prefer-source
 
 before_script:
-# install mysql driver
-- docker-php-ext-install pdo_mysql
-
 # initialize database
 - mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$_MYSQL_HOST" "$MYSQL_DATABASE" < "$DB_INITIALIZATION_SCRIPT"
 
