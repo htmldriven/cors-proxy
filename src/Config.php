@@ -29,6 +29,9 @@ class Config
     /** @var string */
     private $errorTemplateFile;
 
+    /** @var array */
+    private $databaseConfig;
+
     /**
      * @param string
      * @param string
@@ -36,6 +39,7 @@ class Config
      * @param string
      * @param string
      * @param string
+     * @param array
      * @throws FileNotFoundException If template/sitemap/error file does not exist.
      */
     public function __construct(
@@ -44,7 +48,8 @@ class Config
         $templateFile,
         $sitemapPath,
         $sitemapTemplateFile,
-        $errorTemplateFile
+        $errorTemplateFile,
+        $databaseConfig
     ) {
 
         Helpers::checkFileExists($templateFile);
@@ -57,6 +62,7 @@ class Config
         $this->sitemapPath = $sitemapPath;
         $this->sitemapTemplateFile = $sitemapTemplateFile;
         $this->errorTemplateFile = $errorTemplateFile;
+        $this->databaseConfig = $databaseConfig;
     }
 
     /**
@@ -105,5 +111,13 @@ class Config
     public function getErrorTemplateFile()
     {
         return $this->errorTemplateFile;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDatabaseConfig()
+    {
+        return $this->databaseConfig;
     }
 }
