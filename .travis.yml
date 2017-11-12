@@ -17,7 +17,7 @@ env:
     - MYSQL_USER="cors_proxy"
     - MYSQL_PASSWORD=""
     # docker requires using special host
-    - _MYSQL_HOST="127.0.0.1"
+    - _MYSQL_HOST="localhost"
     # db initialization
     - DB_INITIALIZATION_SCRIPT="${TRAVIS_BUILD_DIR}/app/database/cors-proxy.sql"
 
@@ -34,6 +34,9 @@ install:
 before_script:
 # initialize database
 - mysql -e "CREATE DATABASE $MYSQL_DATABASE;"
+- mysql -e "CREATE USER '$MYSQL_USER'@'$_MYSQL_HOST' IDENTIFIED BY '$MYSQL_PASSWORD';"
+- mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO $MYSQL_USER@$_MYSQL_HOST;"
+- mysql -e "FLUSH PRIVILEGES;"
 - mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$_MYSQL_HOST" "$MYSQL_DATABASE" < "$DB_INITIALIZATION_SCRIPT"
 
 script:
