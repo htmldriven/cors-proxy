@@ -93,6 +93,7 @@
 				<p>The best way to install the CORS proxy is using the <a href="https://getcomposer.org">composer</a>. You can do that using the following command:</p>
 				<pre>composer create-project htmldriven/cors-proxy my-cors-proxy</pre>
 				<p class="">* Note that my-cors-proxy in the command above is the name of target directory for newly created CORS proxy project, so this name is totally up to you.</p>
+				<p>Then, create a destination database using the <a href="https://www.github.com/htmldriven/cors-proxy/blob/master/app/database/cors-proxy.sql">cors-proxy.sql</a> initialization script.</p>
 
 				<h3>Configuration</h3>
 				<p>If you need, you can customize the CORS proxy by creating custom config.ini file. This file must be located at app/config directory. There's already config.sample.ini file, which you can just copy and edit some parts of it to match your needs.</p>
@@ -103,6 +104,7 @@
 					<li><code>templateFile = app/templates/default/frontend.phtml</code> - path to main front-end page template file</li>
 					<li><code>sitemapPath = /sitemap.xml</code> - URL path to sitemap file</li>
 					<li><code>sitemapFile = app/templates/default/sitemap.pxml</code> - path to sitemap XML template file</li>
+					<li><code>database = ...</code> - database connection settings</li>
 				</ul>
 			</section>
 			<hr>

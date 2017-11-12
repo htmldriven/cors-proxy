@@ -29,6 +29,8 @@ $ composer create-project htmldriven/cors-proxy my-cors-proxy
 
 *Note that my-cors-proxy in the command above is the name of target directory for newly created CORS proxy project, so this name is totally up to you.*
 
+Then, create a destination database using the [cors-proxy.sql](../../app/database/cors-proxy.sql) initialization script.
+
 ### Configuration
 
 If you need, you can customize the CORS proxy by creating custom `config.ini` file. This file must be located at [app/config](../../app/config) directory.
@@ -42,6 +44,7 @@ There are several config items which you can change. The following list shows al
 - `sitemapPath = /sitemap.xml` - URL path to sitemap file
 - `sitemapTemplateFile = app/templates/default/sitemap.pxml` - path to sitemap XML template file
 - `errorTemplateFile = app/templates/default/error.phtml` - path to error template file
+- `database = ...` - database connection settings
 
 ## License
 

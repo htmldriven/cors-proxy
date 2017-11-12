@@ -2,11 +2,13 @@
 
 namespace HtmlDriven\CorsProxy;
 
+use Dibi\Connection as DibiConnection;
 use Guzzle\Http\Client;
 use Guzzle\Http\ClientInterface;
 use HtmlDriven\CorsProxy\Config;
 use HtmlDriven\CorsProxy\Exception\FileNotFoundException;
 use HtmlDriven\CorsProxy\Exception\MalformedConfigFileException;
+use PDO;
 use RuntimeException;
 
 /**
@@ -26,14 +28,7 @@ class Application
     const DEFAULT_DOMAIN = 'cors-proxy.htmldriven.com';
 
     /** @var array */
-    public $configDefaults = [
-        'urlParameterName' => 'url',
-        'userAgent' => 'htmldriven/cors-proxy 1.0',
-        'templateFile' => __DIR__ . '/../app/templates/default/frontend.phtml',
-        'sitemapPath' => '/sitemap.xml',
-        'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
-        'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
-    ];
+    public $configDefaults = [];
 
     /** @var Config */
     private $config;
@@ -49,6 +44,7 @@ class Application
      */
     public function __construct(Config $config = null)
     {
+        $this->configDefaults = $this->createConfigDefaults();
         $this->config = ($config === null ? $this->createConfig() : $config);
     }
 
@@ -70,7 +66,11 @@ class Application
 
             $client = $this->createClient($config);
 
-            $requestHandler = new RequestHandler($client);
+            $dibiConnection = $this->createDibiConnection($config);
+
+            $requestHandler = new RequestHandler($client, $dibiConnection);
+
+            $dibiConnection->disconnect();
 
             $method = $this->detectHttpMethod();
 
@@ -90,11 +90,12 @@ class Application
     {
         // config file is optional
         $iniFile = __DIR__ . '/../app/config/config.ini';
+
         if (is_file($iniFile)) {
-            if (false === ($config = parse_ini_file($iniFile, false))) {
+            if (false === ($iniConfig = parse_ini_file($iniFile, true))) {
                 throw new MalformedConfigFileException(sprintf("Unable to parse configuration file '%s'.", $iniFile));
             }
-            $config = $config + $this->configDefaults;
+            $config = array_replace_recursive($this->configDefaults, $iniConfig);
         } else {
             $config = $this->configDefaults;
         }
@@ -110,7 +111,8 @@ class Application
             $config['templateFile'],
             $config['sitemapPath'],
             $config['sitemapTemplateFile'],
-            $config['errorTemplateFile']
+            $config['errorTemplateFile'],
+            $config['database']
         );
     }
 
@@ -123,6 +125,18 @@ class Application
         $client = new Client();
         $client->setUserAgent($config->getUserAgent());
         return $client;
+    }
+
+    /**
+     * @param Config
+     * @return DibiConnection
+     */
+    private function createDibiConnection(Config $config)
+    {
+        $dibiConnection = new DibiConnection(
+            $config->getDatabaseConfig()
+        );
+        return $dibiConnection;
     }
 
     /**
@@ -210,5 +224,46 @@ class Application
     private function getLastUpdate(Config $config)
     {
         return new \DateTime(date('Y-m-d H:i:s', filemtime($config->getTemplateFile())));
+    }
+
+    /**
+     * @return array
+     */
+    private function createConfigDefaults()
+    {
+        return [
+            'urlParameterName' => 'url',
+            'userAgent' => 'htmldriven/cors-proxy 1.0',
+            'templateFile' => __DIR__ . '/../app/templates/default/frontend.phtml',
+            'sitemapPath' => '/sitemap.xml',
+            'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
+            'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
+            'database' => [
+                'driver' => 'pdo',
+                'dsn' => 'mysql:dbname=cors_proxy;host=' . $this->detectMySqlHost() . ';charset=utf8mb4',
+                'username' => 'cors_proxy',
+                'password' => '',
+                'lazy' => true,
+                'timezone' => '+00:00',
+                'options' => [
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone = \'+00:00\'',
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Detects MySQL host.
+     *
+     * @return string
+     */
+    private function detectMySqlHost()
+    {
+        $host = getenv('_MYSQL_HOST');
+        if ($host === false) {
+            $host = '127.0.0.1';
+        }
+        return $host;
     }
 }
