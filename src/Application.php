@@ -234,7 +234,7 @@ class Application
     {
         return [
             'urlParameterName' => 'url',
-            'userAgent' => 'htmldriven/cors-proxy 1.0',
+            'userAgent' => 'htmldriven/cors-proxy ' . static::VERSION,
             'templateFile' => __DIR__ . '/../app/templates/default/frontend.phtml',
             'sitemapPath' => '/sitemap.xml',
             'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
