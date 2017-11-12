@@ -1,9 +1,23 @@
 language: php
 
+services:
+- mysql
+
 php:
   - 5.6
   - 7.0
   - hhvm
+
+variables:
+  # configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  MYSQL_DATABASE: cors_proxy
+  MYSQL_USER: cors_proxy
+  MYSQL_PASSWORD: ""
+  # docker requires using special host
+  _MYSQL_HOST: mysql
+  # db initialization
+  DB_INITIALIZATION_SCRIPT: "${CI_PROJECT_DIR}/app/database/cors-proxy.sql"
 
 env:
   - TESTER_PHP_BIN=php
@@ -17,6 +31,13 @@ before_install:
 
 install:
   - composer install --no-interaction --prefer-source
+
+before_script:
+# install mysql driver
+- docker-php-ext-install pdo_mysql
+
+# initialize database
+- mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$_MYSQL_HOST" "$MYSQL_DATABASE" < "$DB_INITIALIZATION_SCRIPT"
 
 script:
   - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/environment/php-unix.ini ./tests

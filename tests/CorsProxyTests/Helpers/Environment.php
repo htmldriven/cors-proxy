@@ -22,6 +22,13 @@ final class Environment
         class_alias('Tester\Assert', 'Assert');
         date_default_timezone_set('UTC');
 
+        // mysql host
+        $mysqlHost = getenv('_MYSQL_HOST');
+        if ($mysqlHost === false) {
+            $mysqlHost = '127.0.0.1';
+        }
+        define('MYSQL_HOST', $mysqlHost);
+
         // create temporary directory
         $tempId = isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid();
         define('TEMP_DIR', __DIR__ . '/../../tmp/' . $tempId);
@@ -40,6 +47,7 @@ final class Environment
             'argv',
             ]));
         $_SERVER['REQUEST_TIME'] = 1234567890;
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $_ENV = $_GET = $_POST = [];
 
         // load helper functions
