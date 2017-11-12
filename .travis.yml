@@ -33,7 +33,7 @@ install:
 
 before_script:
 # initialize database
-- mysql -e 'CREATE DATABASE "$MYSQL_DATABASE";'
+- mysql -e "CREATE DATABASE $MYSQL_DATABASE;"
 - mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$_MYSQL_HOST" "$MYSQL_DATABASE" < "$DB_INITIALIZATION_SCRIPT"
 
 script:
