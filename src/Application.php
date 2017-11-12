@@ -2,6 +2,7 @@
 
 namespace HtmlDriven\CorsProxy;
 
+use DateTime;
 use Dibi\Connection as DibiConnection;
 use Guzzle\Http\Client;
 use Guzzle\Http\ClientInterface;
@@ -219,11 +220,11 @@ class Application
 
     /**
      * @param Config
-     * @return \DateTime
+     * @return DateTime
      */
     private function getLastUpdate(Config $config)
     {
-        return new \DateTime(date('Y-m-d H:i:s', filemtime($config->getTemplateFile())));
+        return new DateTime(date('Y-m-d H:i:s', filemtime($config->getTemplateFile())));
     }
 
     /**
