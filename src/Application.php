@@ -101,6 +101,8 @@ class Application
             $config = $this->configDefaults;
         }
 
+        date_default_timezone_set($config['timezone']);
+
         // absolutize filepaths
         $config['templateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['templateFile']);
         $config['sitemapTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['sitemapTemplateFile']);
@@ -239,6 +241,7 @@ class Application
             'sitemapPath' => '/sitemap.xml',
             'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
             'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
+            'timezone' => 'UTC',
             'database' => [
                 'driver' => 'pdo',
                 'dsn' => 'mysql:dbname=cors_proxy;host=' . $this->detectMySqlHost() . ';charset=utf8mb4',
