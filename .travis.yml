@@ -15,11 +15,11 @@ env:
   - TESTER_PHP_BIN=php
   # configure mysql service (https://hub.docker.com/_/mysql/)
   - MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-  - MYSQL_DATABASE=cors_proxy
-  - MYSQL_USER=cors_proxy
+  - MYSQL_DATABASE="cors_proxy"
+  - MYSQL_USER="cors_proxy"
   - MYSQL_PASSWORD=""
   # docker requires using special host
-  - _MYSQL_HOST: 127.0.0.1
+  - _MYSQL_HOST="127.0.0.1"
   # db initialization
   - DB_INITIALIZATION_SCRIPT="${TRAVIS_BUILD_DIR}/app/database/cors-proxy.sql"
 
