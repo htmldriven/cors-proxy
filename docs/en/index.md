@@ -17,7 +17,7 @@ Read the following section if you want to run the CORS proxy on your own webserv
 ### Requirements
 
 Please, check the [composer.json](../../composer.json) file or [packagist.org](https://packagist.org/packages/htmldriven/cors-proxy) to see the current list of requirements in terms of packages which are required by [composer](https://getcomposer.org/).
-Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements
+Except for PHP version >=5.6 with CURL extension being installed, there are no more odd requirements.
 
 ### Installation
 
