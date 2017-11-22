@@ -30,6 +30,7 @@ final class ConfigTestCase extends TestCase
             $sitemapPath = '/sitemap.xml',
             $sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml',
             $errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml',
+            $ipBlacklistFile = null,
             $databaseConfig = [
                 'driver' => 'pdo',
                 'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
@@ -42,6 +43,7 @@ final class ConfigTestCase extends TestCase
         Assert::same($sitemapPath, $config->getSitemapPath());
         Assert::same($sitemapTemplateFile, $config->getSitemapTemplateFile());
         Assert::same($errorTemplateFile, $config->getErrorTemplateFile());
+        Assert::same($ipBlacklistFile, $config->getIPBlacklistFile());
         Assert::same($databaseConfig, $config->getDatabaseConfig());
     }
 
@@ -56,6 +58,7 @@ final class ConfigTestCase extends TestCase
         $sitemapPath = '/sitemap.xml';
         $sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
         $errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
+        $ipBlacklistFile = null;
         $databaseConfig = [
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
@@ -68,6 +71,7 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
+            $ipBlacklistFile,
             $databaseConfig
         ) {
             new Config(
@@ -77,6 +81,7 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
+                $ipBlacklistFile,
                 $databaseConfig
             );
         }, FileNotFoundException::class, "File '{$templateFile}' does not exist or not accessible.");
@@ -93,6 +98,7 @@ final class ConfigTestCase extends TestCase
         $sitemapPath = '/sitemap.xml';
         $sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-sitemap.pxml';
         $errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
+        $ipBlacklistFile = null;
         $databaseConfig = [
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
@@ -105,6 +111,7 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
+            $ipBlacklistFile,
             $databaseConfig
         ) {
             new Config(
@@ -114,6 +121,7 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
+                $ipBlacklistFile,
                 $databaseConfig
             );
         }, FileNotFoundException::class, "File '{$sitemapTemplateFile}' does not exist or not accessible.");
@@ -130,6 +138,7 @@ final class ConfigTestCase extends TestCase
         $sitemapPath = '/sitemap.xml';
         $sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
         $errorTemplateFile = __DIR__ . '/../data/app/templates/foo/invalid-error.phtml';
+        $ipBlacklistFile = null;
         $databaseConfig = [
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
@@ -142,6 +151,7 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
+            $ipBlacklistFile,
             $databaseConfig
         ) {
             new Config(
@@ -151,9 +161,50 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
+                $ipBlacklistFile,
                 $databaseConfig
             );
         }, FileNotFoundException::class, "File '{$errorTemplateFile}' does not exist or not accessible.");
+    }
+
+    /**
+     * @return void
+     */
+    public function testInvaliIPBlacklistFile()
+    {
+        $urlParameterName = 'my-url';
+        $userAgent = 'My CORS proxy';
+        $templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml';
+        $sitemapPath = '/sitemap.xml';
+        $sitemapTemplateFile = __DIR__ . '/../data/app/templates/foo/sitemap.pxml';
+        $errorTemplateFile = __DIR__ . '/../data/app/templates/foo/error.phtml';
+        $ipBlacklistFile = __DIR__ . '/../data/app/ip.blacklist-fake';
+        $databaseConfig = [
+            'driver' => 'pdo',
+            'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
+        ];
+
+        Assert::throws(function () use (
+            $urlParameterName,
+            $userAgent,
+            $templateFile,
+            $sitemapPath,
+            $sitemapTemplateFile,
+            $errorTemplateFile,
+            $ipBlacklistFile,
+            $databaseConfig
+        ) {
+            new Config(
+                $urlParameterName,
+                $userAgent,
+                $templateFile,
+                $sitemapPath,
+                $sitemapTemplateFile,
+                $errorTemplateFile,
+                $ipBlacklistFile,
+                $databaseConfig
+            );
+        }, FileNotFoundException::class, "File '{$ipBlacklistFile}' does not exist or not accessible.");
     }
 }
 
