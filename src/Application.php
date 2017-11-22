@@ -63,6 +63,23 @@ class Application
 
         // handle CORS proxy request if URL is set
         if (isset($_GET[$config->getUrlParameterName()])) {
+            if ($config->getIPBlacklistFile() !== null) {
+                if (isset($_SERVER['REMOTE_ADDR'])) {
+                    $ipBlacklist = IPBlacklist::loadFromFile($config->getIPBlacklistFile());
+                    if ($ipBlacklist->isIPBlacklisted($_SERVER['REMOTE_ADDR'])) {
+                        http_response_code(403);
+                        header('Content-Type: application/json');
+                        $json = [
+                            'success' => false,
+                            'error' => 'You are not allowed to use this service.',
+                            'body' => null,
+                        ];
+                        echo json_encode($json);
+                        exit;
+                    }
+                }
+            }
+
             $url = (string) $_GET[$config->getUrlParameterName()];
 
             $client = $this->createClient($config);
@@ -108,6 +125,10 @@ class Application
         $config['sitemapTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['sitemapTemplateFile']);
         $config['errorTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['errorTemplateFile']);
 
+        if ($config['ipBlacklistFile'] === 'false' || trim($config['ipBlacklistFile']) === '') {
+            $config['ipBlacklistFile'] = null;
+        }
+
         return new Config(
             $config['urlParameterName'],
             $config['userAgent'],
@@ -115,6 +136,7 @@ class Application
             $config['sitemapPath'],
             $config['sitemapTemplateFile'],
             $config['errorTemplateFile'],
+            $config['ipBlacklistFile'],
             $config['database']
         );
     }
@@ -241,6 +263,7 @@ class Application
             'sitemapPath' => '/sitemap.xml',
             'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
             'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
+            'ipBlacklistFile' => false,
             'timezone' => 'UTC',
             'database' => [
                 'driver' => 'pdo',

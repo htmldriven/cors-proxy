@@ -32,6 +32,9 @@ class Config
     /** @var array */
     private $databaseConfig;
 
+    /** @var array  */
+    private $ipBlacklist;
+
     /**
      * @param string
      * @param string
@@ -39,6 +42,7 @@ class Config
      * @param string
      * @param string
      * @param string
+     * @param array
      * @param array
      * @throws FileNotFoundException If template/sitemap/error file does not exist.
      */
@@ -49,12 +53,16 @@ class Config
         $sitemapPath,
         $sitemapTemplateFile,
         $errorTemplateFile,
+        $ipBlacklistFile,
         $databaseConfig
     ) {
-
         Helpers::checkFileExists($templateFile);
         Helpers::checkFileExists($sitemapTemplateFile);
         Helpers::checkFileExists($errorTemplateFile);
+
+        if ($ipBlacklistFile !== null) {
+            Helpers::checkFileExists($ipBlacklistFile);
+        }
 
         $this->urlParameterName = $urlParameterName;
         $this->userAgent = $userAgent;
@@ -63,6 +71,7 @@ class Config
         $this->sitemapTemplateFile = $sitemapTemplateFile;
         $this->errorTemplateFile = $errorTemplateFile;
         $this->databaseConfig = $databaseConfig;
+        $this->ipBlacklistFile = $ipBlacklistFile;
     }
 
     /**
@@ -111,6 +120,14 @@ class Config
     public function getErrorTemplateFile()
     {
         return $this->errorTemplateFile;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getIPBlacklistFile()
+    {
+        return $this->ipBlacklistFile;
     }
 
     /**
