@@ -29,11 +29,14 @@ class Config
     /** @var string */
     private $errorTemplateFile;
 
+    /** @var string  */
+    private $ipBlacklistFile;
+
+    /** @var string  */
+    private $accessTokensFile;
+
     /** @var array */
     private $databaseConfig;
-
-    /** @var array  */
-    private $ipBlacklist;
 
     /**
      * @param string
@@ -42,7 +45,8 @@ class Config
      * @param string
      * @param string
      * @param string
-     * @param array
+     * @param string
+     * @param string
      * @param array
      * @throws FileNotFoundException If template/sitemap/error file does not exist.
      */
@@ -54,6 +58,7 @@ class Config
         $sitemapTemplateFile,
         $errorTemplateFile,
         $ipBlacklistFile,
+        $accessTokensFile,
         $databaseConfig
     ) {
         Helpers::checkFileExists($templateFile);
@@ -63,6 +68,9 @@ class Config
         if ($ipBlacklistFile !== null) {
             Helpers::checkFileExists($ipBlacklistFile);
         }
+        if ($accessTokensFile !== null) {
+            Helpers::checkFileExists($accessTokensFile);
+        }
 
         $this->urlParameterName = $urlParameterName;
         $this->userAgent = $userAgent;
@@ -70,8 +78,9 @@ class Config
         $this->sitemapPath = $sitemapPath;
         $this->sitemapTemplateFile = $sitemapTemplateFile;
         $this->errorTemplateFile = $errorTemplateFile;
-        $this->databaseConfig = $databaseConfig;
         $this->ipBlacklistFile = $ipBlacklistFile;
+        $this->accessTokensFile = $accessTokensFile;
+        $this->databaseConfig = $databaseConfig;
     }
 
     /**
@@ -123,11 +132,19 @@ class Config
     }
 
     /**
-     * @return string[]
+     * @return string
      */
     public function getIPBlacklistFile()
     {
         return $this->ipBlacklistFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessTokensFile()
+    {
+        return $this->accessTokensFile;
     }
 
     /**

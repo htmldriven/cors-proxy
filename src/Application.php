@@ -28,6 +28,9 @@ class Application
     /** @var string */
     const DEFAULT_DOMAIN = 'cors-proxy.htmldriven.com';
 
+    /** @var string */
+    const ACCESS_TOKEN_PARAMETER_NAME = 't';
+
     /** @var array */
     public $configDefaults = [];
 
@@ -63,10 +66,15 @@ class Application
 
         // handle CORS proxy request if URL is set
         if (isset($_GET[$config->getUrlParameterName()])) {
+            $isRequestValid = true;
+
+            // IP blacklist
             if ($config->getIPBlacklistFile() !== null) {
                 if (isset($_SERVER['REMOTE_ADDR'])) {
                     $ipBlacklist = IPBlacklist::loadFromFile($config->getIPBlacklistFile());
                     if ($ipBlacklist->isIPBlacklisted($_SERVER['REMOTE_ADDR'])) {
+                        $isRequestValid = false;
+
                         http_response_code(403);
                         header('Content-Type: application/json');
                         $json = [
@@ -75,24 +83,44 @@ class Application
                             'body' => null,
                         ];
                         echo json_encode($json);
-                        exit;
                     }
                 }
             }
 
-            $url = (string) $_GET[$config->getUrlParameterName()];
+            // access tokens whitelisting
+            if ($isRequestValid && $config->getAccessTokensFile() !== null) {
+                $accessTokens = AccessTokens::loadFromFile($config->getAccessTokensFile());
 
-            $client = $this->createClient($config);
+                if (!isset($_GET[static::ACCESS_TOKEN_PARAMETER_NAME])
+                    || !$accessTokens->isAccessTokenValid($_GET[static::ACCESS_TOKEN_PARAMETER_NAME])) {
+                    $isRequestValid = false;
 
-            $dibiConnection = $this->createDibiConnection($config);
+                    http_response_code(401);
+                    header('Content-Type: application/json');
+                    $json = [
+                        'success' => false,
+                        'error' => 'You are not allowed to use this service without valid access token.',
+                        'body' => null,
+                    ];
+                    echo json_encode($json);
+                }
+            }
 
-            $requestHandler = new RequestHandler($client, $dibiConnection);
+            if ($isRequestValid) {
+                $url = (string) $_GET[$config->getUrlParameterName()];
 
-            $dibiConnection->disconnect();
+                $client = $this->createClient($config);
 
-            $method = $this->detectHttpMethod();
+                $dibiConnection = $this->createDibiConnection($config);
 
-            $requestHandler->handleRequest($method, $url);
+                $requestHandler = new RequestHandler($client, $dibiConnection);
+
+                $dibiConnection->disconnect();
+
+                $method = $this->detectHttpMethod();
+
+                $requestHandler->handleRequest($method, $url);
+            }
         } else {
             // show frontend
             $this->showFrontEnd($config);
@@ -129,6 +157,10 @@ class Application
             $config['ipBlacklistFile'] = null;
         }
 
+        if ($config['accessTokensFile'] === 'false' || trim($config['accessTokensFile']) === '') {
+            $config['accessTokensFile'] = null;
+        }
+
         return new Config(
             $config['urlParameterName'],
             $config['userAgent'],
@@ -137,6 +169,7 @@ class Application
             $config['sitemapTemplateFile'],
             $config['errorTemplateFile'],
             $config['ipBlacklistFile'],
+            $config['accessTokensFile'],
             $config['database']
         );
     }
@@ -264,6 +297,7 @@ class Application
             'sitemapTemplateFile' => __DIR__ . '/../app/templates/default/sitemap.pxml',
             'errorTemplateFile' => __DIR__ . '/../app/templates/default/error.phtml',
             'ipBlacklistFile' => false,
+            'accessTokensFile' => false,
             'timezone' => 'UTC',
             'database' => [
                 'driver' => 'pdo',
