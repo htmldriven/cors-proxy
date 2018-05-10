@@ -23,9 +23,6 @@ class Application
     const VERSION = '1.1.0';
 
     /** @var string */
-    const DEFAULT_PROTOCOL = 'http';
-
-    /** @var string */
     const DEFAULT_DOMAIN = 'cors-proxy.htmldriven.com';
 
     /** @var array */
