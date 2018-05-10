@@ -13,4 +13,4 @@ Learn more in the [documentation](docs/en/index.md).
 
 ## Project home
 
-You can find more information about and test the CORS proxy on project website [cors-proxy.htmldriven.com](http://cors-proxy.htmldriven.com).
+You can find more information about and test the CORS proxy on project website [cors-proxy.htmldriven.com](https://cors-proxy.htmldriven.com).

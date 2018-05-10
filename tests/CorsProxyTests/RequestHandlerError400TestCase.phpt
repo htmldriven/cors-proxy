@@ -53,7 +53,7 @@ class RequestHandlerError404TestCase extends TestCase
 		ob_start();
 		$requestHandler->handleRequest(
 			RequestInterface::GET,
-			'http://unknown-host-123-cba.htmldriven.com/sample.json'
+			'https://unknown-host-123-cba.htmldriven.com/sample.json'
 		);
 		$contents = ob_get_clean();
 

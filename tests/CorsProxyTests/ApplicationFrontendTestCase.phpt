@@ -75,7 +75,7 @@ final class ApplicationFrontendTestCase extends TestCase
 		$dom = DomQuery::fromXml($contents);
 		$dom->registerXPathNamespace('s', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
-		Assert::true((bool) $dom->xpath('/s:urlset/s:url/s:loc[text() = "http://cors-proxy.htmldriven.com"]'));
+		Assert::true((bool) $dom->xpath('/s:urlset/s:url/s:loc[text() = "https://cors-proxy.htmldriven.com"]'));
 	}
 
 	/**

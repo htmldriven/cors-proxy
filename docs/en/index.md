@@ -7,7 +7,7 @@ The CORS proxy service expects you provide the URL of 3rd party service/page in 
 A final cross-domain request URL via the CORS proxy service can be handled, looks something like this:
 
 ```
-http://cors-proxy.htmldriven.com.localhost/?url=http://www.htmldriven.com/sample.json
+https://cors-proxy.htmldriven.com.localhost/?url=https://www.htmldriven.com/sample.json
 ````
 
 ## Setup

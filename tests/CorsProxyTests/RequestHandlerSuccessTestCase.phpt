@@ -50,7 +50,7 @@ class RequestHandlerSuccessTestCase extends TestCase
 		ob_start();
 		$requestHandler->handleRequest(
 			RequestInterface::GET,
-			'http://www.htmldriven.com/sample.json'
+			'https://www.htmldriven.com/sample.json'
 		);
 		$contents = ob_get_clean();
 
