@@ -5,6 +5,7 @@ namespace HtmlDriven\CorsProxyTests;
 use Dibi\Connection as DibiConnection;
 use Guzzle\Http\Message\Response;
 use Guzzle\Http\Message\RequestInterface;
+use HtmlDriven\CorsProxy\Config;
 use HtmlDriven\CorsProxy\RequestHandler;
 use HtmlDriven\CorsProxyTests\Mock\FakeClient;
 use HtmlDriven\CorsProxyTests\Mock\FakeRequest;
@@ -32,6 +33,20 @@ class RequestHandlerSuccessTestCase extends TestCase
 		$headers = [];
 		$body = 'Lorem ipsum dolor sit amet.';
 
+		$config = new Config(
+            'my-url',
+            'My CORS proxy',
+            __DIR__ . '/../data/app/templates/foo/frontend.phtml',
+            '/sitemap.xml',
+            __DIR__ . '/../data/app/templates/foo/sitemap.pxml',
+            __DIR__ . '/../data/app/templates/foo/error.phtml',
+            [
+                'driver' => 'pdo',
+                'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
+            ],
+            false
+        );
+
 		$response = new Response($statusCode, $headers, $body);
 
 		$fakeRequest = new FakeRequest($response);
@@ -43,7 +58,7 @@ class RequestHandlerSuccessTestCase extends TestCase
 			'username' => 'cors_proxy',
 		]);
 
-		$requestHandler = new RequestHandler($fakeClient, $dibiConnection);
+		$requestHandler = new RequestHandler($config, $fakeClient, $dibiConnection);
 
 		$dibiConnection->disconnect();
 

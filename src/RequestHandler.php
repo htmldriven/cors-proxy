@@ -30,6 +30,7 @@ class RequestHandler
         ClientInterface $client,
         DibiConnection $dibiConnection
     ) {
+        $this->config = $config;
         $this->client = $client;
         $this->dibiConnection = $dibiConnection;
     }

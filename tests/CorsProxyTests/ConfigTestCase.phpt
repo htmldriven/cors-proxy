@@ -33,7 +33,8 @@ final class ConfigTestCase extends TestCase
             $databaseConfig = [
                 'driver' => 'pdo',
                 'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
-            ]
+            ],
+            $requestLogEnabled = false
         );
 
         Assert::same($urlParameterName, $config->getUrlParameterName());
@@ -43,6 +44,7 @@ final class ConfigTestCase extends TestCase
         Assert::same($sitemapTemplateFile, $config->getSitemapTemplateFile());
         Assert::same($errorTemplateFile, $config->getErrorTemplateFile());
         Assert::same($databaseConfig, $config->getDatabaseConfig());
+        Assert::same($requestLogEnabled, $config->isRequestLogEnabled());
     }
 
     /**
@@ -60,6 +62,7 @@ final class ConfigTestCase extends TestCase
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
         ];
+        $requestLogEnabled = false;
 
         Assert::throws(function () use (
             $urlParameterName,
@@ -68,7 +71,8 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
-            $databaseConfig
+            $databaseConfig,
+            $requestLogEnabled
         ) {
             new Config(
                 $urlParameterName,
@@ -77,7 +81,8 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
-                $databaseConfig
+                $databaseConfig,
+                $requestLogEnabled
             );
         }, FileNotFoundException::class, "File '{$templateFile}' does not exist or not accessible.");
     }
@@ -97,6 +102,7 @@ final class ConfigTestCase extends TestCase
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
         ];
+        $requestLogEnabled = false;
 
         Assert::throws(function () use (
             $urlParameterName,
@@ -105,7 +111,8 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
-            $databaseConfig
+            $databaseConfig,
+            $requestLogEnabled
         ) {
             new Config(
                 $urlParameterName,
@@ -114,7 +121,8 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
-                $databaseConfig
+                $databaseConfig,
+                $requestLogEnabled
             );
         }, FileNotFoundException::class, "File '{$sitemapTemplateFile}' does not exist or not accessible.");
     }
@@ -134,6 +142,7 @@ final class ConfigTestCase extends TestCase
             'driver' => 'pdo',
             'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
         ];
+        $requestLogEnabled = false;
 
         Assert::throws(function () use (
             $urlParameterName,
@@ -142,7 +151,8 @@ final class ConfigTestCase extends TestCase
             $sitemapPath,
             $sitemapTemplateFile,
             $errorTemplateFile,
-            $databaseConfig
+            $databaseConfig,
+            $requestLogEnabled
         ) {
             new Config(
                 $urlParameterName,
@@ -151,7 +161,8 @@ final class ConfigTestCase extends TestCase
                 $sitemapPath,
                 $sitemapTemplateFile,
                 $errorTemplateFile,
-                $databaseConfig
+                $databaseConfig,
+                $requestLogEnabled
             );
         }, FileNotFoundException::class, "File '{$errorTemplateFile}' does not exist or not accessible.");
     }

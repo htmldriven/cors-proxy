@@ -3,8 +3,9 @@
 namespace HtmlDriven\CorsProxyTests;
 
 use Dibi\Connection as DibiConnection;
-use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Message\RequestInterface;
+use HtmlDriven\CorsProxy\Config;
 use HtmlDriven\CorsProxy\RequestHandler;
 use HtmlDriven\CorsProxyTests\Mock\FakeClient;
 use HtmlDriven\CorsProxyTests\Mock\FakeRequest;
@@ -33,9 +34,22 @@ class RequestHandlerError404TestCase extends TestCase
 		$headers = [];
 		$body = 'Lorem ipsum dolor sit amet.';
 
+		$config = new Config(
+            'my-url',
+            'My CORS proxy',
+            __DIR__ . '/../data/app/templates/foo/frontend.phtml',
+            '/sitemap.xml',
+            __DIR__ . '/../data/app/templates/foo/sitemap.pxml',
+            __DIR__ . '/../data/app/templates/foo/error.phtml',
+            [
+                'driver' => 'pdo',
+                'dsn' => 'mysql:dbname=cors_proxy;host=127.0.0.1',
+            ],
+            false
+        );
+
 		$response = function() {
-			$curlException = new CurlException();
-			$curlException->setError('Invalid host name.', CURLE_COULDNT_RESOLVE_HOST);
+			$curlException = new RequestException('Invalid host name.', CURLE_COULDNT_RESOLVE_HOST);
 			throw $curlException;
 		};
 
@@ -48,7 +62,7 @@ class RequestHandlerError404TestCase extends TestCase
 			'username' => 'cors_proxy',
 		]);
 
-		$requestHandler = new RequestHandler($fakeClient, $dibiConnection);
+		$requestHandler = new RequestHandler($config, $fakeClient, $dibiConnection);
 
 		ob_start();
 		$requestHandler->handleRequest(
