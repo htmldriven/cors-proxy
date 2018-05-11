@@ -66,7 +66,11 @@ class Application
 
             $dibiConnection = $this->createDibiConnection($config);
 
-            $requestHandler = new RequestHandler($client, $dibiConnection);
+            $requestHandler = new RequestHandler(
+                $config,
+                $client,
+                $dibiConnection
+            );
 
             $dibiConnection->disconnect();
 
@@ -112,7 +116,8 @@ class Application
             $config['sitemapPath'],
             $config['sitemapTemplateFile'],
             $config['errorTemplateFile'],
-            $config['database']
+            $config['database'],
+            $config['requestLogEnabled']
         );
     }
 
@@ -251,6 +256,7 @@ class Application
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 ],
             ],
+            'requestLogEnabled' => false,
         ];
     }
 

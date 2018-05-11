@@ -16,6 +16,9 @@ use Guzzle\Http\Message\Response;
  */
 class RequestHandler
 {
+    /** @var Config */
+    private $config;
+
     /** @var ClientInterface */
     private $client;
 
@@ -23,6 +26,7 @@ class RequestHandler
     private $dibiConnection;
 
     public function __construct(
+        Config $config,
         ClientInterface $client,
         DibiConnection $dibiConnection
     ) {
@@ -65,27 +69,29 @@ class RequestHandler
             $json['body'] = null;
         }
 
-        try {
-            $this->dibiConnection
-                ->insert('request_log', [
-                    'method' => $request->getMethod(),
-                    'scheme' => $request->getScheme(),
-                    'host' => $request->getHost(),
-                    'path' => $request->getPath(),
-                    'query' => (string) $request->getQuery(),
-                    'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ?
-                        $_SERVER['HTTP_USER_AGENT'] : null,
-                    'request_headers' => null, // TODO: not yet supported
-                    'request_body' => null, // TODO: not yet supported
-                    'response_headers' => isset($response) ?
-                        json_encode($this->getHeadersFromResponse($response)) : null,
-                    'response_body' => $json['body'],
-                    'date_created' => (new DateTime())->format('Y-m-d H:i:s'),
-                ])
-                ->execute();
-        } catch (DibiException $e) {
-            // TODO: use custom error logging
-            error_log($e->getMessage());
+        if ($this->config->isRequestLogEnabled()) {
+            try {
+                $this->dibiConnection
+                    ->insert('request_log', [
+                        'method' => $request->getMethod(),
+                        'scheme' => $request->getScheme(),
+                        'host' => $request->getHost(),
+                        'path' => $request->getPath(),
+                        'query' => (string) $request->getQuery(),
+                        'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ?
+                            $_SERVER['HTTP_USER_AGENT'] : null,
+                        'request_headers' => null, // TODO: not yet supported
+                        'request_body' => null, // TODO: not yet supported
+                        'response_headers' => isset($response) ?
+                            json_encode($this->getHeadersFromResponse($response)) : null,
+                        'response_body' => $json['body'],
+                        'date_created' => (new DateTime())->format('Y-m-d H:i:s'),
+                    ])
+                    ->execute();
+            } catch (DibiException $e) {
+                // TODO: use custom error logging
+                error_log($e->getMessage());
+            }
         }
 
         header('Content-Type: application/json');

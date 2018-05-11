@@ -32,6 +32,9 @@ class Config
     /** @var array */
     private $databaseConfig;
 
+    /** @var boolean */
+    private $requestLogEnabled;
+
     /**
      * @param string
      * @param string
@@ -49,7 +52,8 @@ class Config
         $sitemapPath,
         $sitemapTemplateFile,
         $errorTemplateFile,
-        $databaseConfig
+        $databaseConfig,
+        $requestLogEnabled
     ) {
 
         Helpers::checkFileExists($templateFile);
@@ -63,6 +67,7 @@ class Config
         $this->sitemapTemplateFile = $sitemapTemplateFile;
         $this->errorTemplateFile = $errorTemplateFile;
         $this->databaseConfig = $databaseConfig;
+        $this->requestLogEnabled = $requestLogEnabled;
     }
 
     /**
@@ -119,5 +124,13 @@ class Config
     public function getDatabaseConfig()
     {
         return $this->databaseConfig;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRequestLogEnabled()
+    {
+        return $this->requestLogEnabled;
     }
 }
