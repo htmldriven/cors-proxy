@@ -54,24 +54,9 @@ class RequestHandler
             $response = $request->send(true);
         } catch (RequestException $e) {
             $json['success'] = false;
+            $json['error'] = sprintf("Unable to handle request: CURL failed with message '%s'.", $e->getMessage());
 
-            $message = '';
-            if ($e->hasResponse()) {
-                $message = $e->getResponse()->getReasonPhrase();
-
-                switch ($e->getResponse()->getStatusCode()) {
-                    case CURLE_COULDNT_RESOLVE_HOST:
-                        http_response_code(404);
-                        break;
-                    default:
-                        http_response_code(400);
-                        break;
-                }
-            } else {
-                http_response_code(400);
-            }
-
-            $json['error'] = sprintf("Unable to handle request: CURL failed with message '%s'.", $message);
+            http_response_code(400);
         }
 
         if (isset($response)) {
