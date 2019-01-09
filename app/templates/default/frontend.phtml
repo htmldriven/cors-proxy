@@ -61,7 +61,7 @@
 					<span class="input-group-addon" style="width:1%;"><?php echo $domainUrl; ?><?php echo $basePath; ?>/?<?php echo $config->getUrlParameterName(); ?>=</span>
 					<input type="text" name="url" class="form-control" placeholder="Enter the URL">
 					<div class="input-group-btn" style="width:1%;">
-						<input type="submit" class="btn btn-primary" value="Get response now">
+						<input type="submit" class="btn btn-primary" value="Get response now" <?php echo !$isServiceEnabled ? 'disabled title="Service is disabled"' : NULL; ?>>
 					</div>
 				</div>
 			</form>

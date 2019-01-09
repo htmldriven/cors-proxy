@@ -60,23 +60,29 @@ class Application
 
         // handle CORS proxy request if URL is set
         if (isset($_GET[$config->getUrlParameterName()])) {
-            $url = (string) $_GET[$config->getUrlParameterName()];
+            if ($config->isEnabled()) {
+                $url = (string) $_GET[$config->getUrlParameterName()];
 
-            $client = $this->createClient($config);
+                $client = $this->createClient($config);
 
-            $dibiConnection = $this->createDibiConnection($config);
+                $dibiConnection = $this->createDibiConnection($config);
 
-            $requestHandler = new RequestHandler(
-                $config,
-                $client,
-                $dibiConnection
-            );
+                $requestHandler = new RequestHandler(
+                    $config,
+                    $client,
+                    $dibiConnection
+                );
 
-            $dibiConnection->disconnect();
+                $dibiConnection->disconnect();
 
-            $method = $this->detectHttpMethod();
+                $method = $this->detectHttpMethod();
 
-            $requestHandler->handleRequest($method, $url);
+                $requestHandler->handleRequest($method, $url);
+            } else {
+                $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+                header($protocol . ' ' . 404 . ' Not Found');
+                echo 'Service has been disabled';
+            }
         } else {
             // show frontend
             $this->showFrontEnd($config);
@@ -110,6 +116,7 @@ class Application
         $config['errorTemplateFile'] = Helpers::absolutizeFilepath(__DIR__, $config['errorTemplateFile']);
 
         return new Config(
+            $config['enabled'],
             $config['urlParameterName'],
             $config['userAgent'],
             $config['templateFile'],
@@ -164,6 +171,8 @@ class Application
      */
     private function showFrontEnd(Config $config)
     {
+        $isServiceEnabled = $config->isEnabled();
+
         $isSecured = $this->isSecured();
         $domain = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : static::DEFAULT_DOMAIN;
         $protocol = ($isSecured ? 'https' : 'http');
@@ -237,6 +246,7 @@ class Application
     private function createConfigDefaults()
     {
         return [
+            'enabled' => true,
             'urlParameterName' => 'url',
             'userAgent' => 'htmldriven/cors-proxy ' . static::VERSION,
             'templateFile' => __DIR__ . '/../app/templates/default/frontend.phtml',

@@ -11,6 +11,9 @@ use HtmlDriven\CorsProxy\Exception\FileNotFoundException;
  */
 class Config
 {
+    /** @var boolean */
+    private $enabled;
+
     /** @var string */
     private $urlParameterName;
 
@@ -46,6 +49,7 @@ class Config
      * @throws FileNotFoundException If template/sitemap/error file does not exist.
      */
     public function __construct(
+        $enabled,
         $urlParameterName,
         $userAgent,
         $templateFile,
@@ -60,6 +64,7 @@ class Config
         Helpers::checkFileExists($sitemapTemplateFile);
         Helpers::checkFileExists($errorTemplateFile);
 
+        $this->enabled = (bool) $enabled;
         $this->urlParameterName = $urlParameterName;
         $this->userAgent = $userAgent;
         $this->templateFile = $templateFile;
@@ -68,6 +73,14 @@ class Config
         $this->errorTemplateFile = $errorTemplateFile;
         $this->databaseConfig = $databaseConfig;
         $this->requestLogEnabled = $requestLogEnabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 
     /**
