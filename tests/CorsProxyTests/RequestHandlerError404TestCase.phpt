@@ -35,6 +35,7 @@ class RequestHandlerError404TestCase extends TestCase
 		$body = 'Lorem ipsum dolor sit amet.';
 
 		$config = new Config(
+			true,
             'my-url',
             'My CORS proxy',
             __DIR__ . '/../data/app/templates/foo/frontend.phtml',

@@ -29,6 +29,7 @@ final class ApplicationFrontendTestCase extends TestCase
 		$_SERVER['REQUEST_URI'] = '';
 
 		$this->fooConfig = new Config(
+			true,
 			'url',
 			'CORS proxy test',
 			__DIR__ . '/../data/app/templates/foo/frontend.phtml',

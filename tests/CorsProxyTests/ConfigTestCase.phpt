@@ -24,6 +24,7 @@ final class ConfigTestCase extends TestCase
     public function testConfigParameters()
     {
         $config = new Config(
+            $enabled = false,
             $urlParameterName = 'my-url',
             $userAgent = 'My CORS proxy',
             $templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml',
@@ -37,6 +38,7 @@ final class ConfigTestCase extends TestCase
             $requestLogEnabled = false
         );
 
+        Assert::same($enabled, $config->isEnabled());
         Assert::same($urlParameterName, $config->getUrlParameterName());
         Assert::same($userAgent, $config->getUserAgent());
         Assert::same($templateFile, $config->getTemplateFile());
@@ -52,6 +54,7 @@ final class ConfigTestCase extends TestCase
      */
     public function testInvalidTemplateFile()
     {
+        $enabled = true;
         $urlParameterName = 'my-url';
         $userAgent = 'My CORS proxy';
         $templateFile = __DIR__ . '/../data/app/templates/foo/invalid-frontend.phtml';
@@ -65,6 +68,7 @@ final class ConfigTestCase extends TestCase
         $requestLogEnabled = false;
 
         Assert::throws(function () use (
+            $enabled,
             $urlParameterName,
             $userAgent,
             $templateFile,
@@ -75,6 +79,7 @@ final class ConfigTestCase extends TestCase
             $requestLogEnabled
         ) {
             new Config(
+                $enabled,
                 $urlParameterName,
                 $userAgent,
                 $templateFile,
@@ -92,6 +97,7 @@ final class ConfigTestCase extends TestCase
      */
     public function testInvalidSitemapTemplateFile()
     {
+        $enabled = true;
         $urlParameterName = 'my-url';
         $userAgent = 'My CORS proxy';
         $templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml';
@@ -105,6 +111,7 @@ final class ConfigTestCase extends TestCase
         $requestLogEnabled = false;
 
         Assert::throws(function () use (
+            $enabled,
             $urlParameterName,
             $userAgent,
             $templateFile,
@@ -115,6 +122,7 @@ final class ConfigTestCase extends TestCase
             $requestLogEnabled
         ) {
             new Config(
+                $enabled,
                 $urlParameterName,
                 $userAgent,
                 $templateFile,
@@ -132,6 +140,7 @@ final class ConfigTestCase extends TestCase
      */
     public function testInvaliErrorTemplateFile()
     {
+        $enabled = true;
         $urlParameterName = 'my-url';
         $userAgent = 'My CORS proxy';
         $templateFile = __DIR__ . '/../data/app/templates/foo/frontend.phtml';
@@ -145,6 +154,7 @@ final class ConfigTestCase extends TestCase
         $requestLogEnabled = false;
 
         Assert::throws(function () use (
+            $enabled,
             $urlParameterName,
             $userAgent,
             $templateFile,
@@ -155,6 +165,7 @@ final class ConfigTestCase extends TestCase
             $requestLogEnabled
         ) {
             new Config(
+                $enabled,
                 $urlParameterName,
                 $userAgent,
                 $templateFile,
